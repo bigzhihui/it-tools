@@ -14,9 +14,15 @@ const themeOverrides = computed(() => (styleStore.isDarkTheme ? darkThemeOverrid
 
 const { locale } = useI18n();
 
+const savedLocale = useStorage('locale', 'zh');
+if (!savedLocale.value || savedLocale.value === 'en') {
+  savedLocale.value = 'zh';
+}
+locale.value = savedLocale.value;
+
 syncRef(
   locale,
-  useStorage('locale', locale),
+  savedLocale,
 );
 </script>
 

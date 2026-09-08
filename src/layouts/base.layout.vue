@@ -14,6 +14,7 @@ import type { ToolCategory } from '@/tools/tools.types';
 import { useToolStore } from '@/tools/tools.store';
 import { useTracker } from '@/modules/tracker/tracker.services';
 import CollapsibleToolMenu from '@/components/CollapsibleToolMenu.vue';
+import AppFooter from '@/components/AppFooter.vue';
 
 const themeVars = useThemeVars();
 const styleStore = useStyleStore();
@@ -39,7 +40,7 @@ const tools = computed<ToolCategory[]>(() => [
         <HeroGradient class="gradient" />
         <div class="text-wrapper">
           <div class="title">
-            IT - TOOLS
+            十三月工具箱
           </div>
           <div class="divider" />
           <div class="subtitle">
@@ -61,9 +62,9 @@ const tools = computed<ToolCategory[]>(() => [
 
         <div class="footer">
           <div>
-            IT-Tools
+            十三月工具箱
 
-            <c-link target="_blank" rel="noopener" :href="`https://github.com/CorentinTh/it-tools/tree/v${version}`">
+            <c-link target="_blank" rel="noopener" href="https://github.com/bigzhihui/it-tools">
               v{{ version }}
             </c-link>
 
@@ -73,16 +74,16 @@ const tools = computed<ToolCategory[]>(() => [
                 target="_blank"
                 rel="noopener"
                 type="primary"
-                :href="`https://github.com/CorentinTh/it-tools/tree/${commitSha}`"
+                href="https://github.com/bigzhihui/it-tools"
               >
                 {{ commitSha }}
               </c-link>
             </template>
           </div>
           <div>
-            © {{ new Date().getFullYear() }}
-            <c-link target="_blank" rel="noopener" href="https://corentin.tech?utm_source=it-tools&utm_medium=footer">
-              Corentin Thomasset
+            © 2025
+            <c-link target="_blank" rel="noopener" href="https://tools.afeiii.com">
+              tools.afeiii.com
             </c-link>
           </div>
         </div>
@@ -90,52 +91,59 @@ const tools = computed<ToolCategory[]>(() => [
     </template>
 
     <template #content>
-      <div flex items-center justify-center gap-2>
-        <c-button
-          circle
-          variant="text"
-          :aria-label="$t('home.toggleMenu')"
-          @click="styleStore.isMenuCollapsed = !styleStore.isMenuCollapsed"
-        >
-          <NIcon size="25" :component="Menu2" />
-        </c-button>
-
-        <c-tooltip :tooltip="$t('home.home')" position="bottom">
-          <c-button to="/" circle variant="text" :aria-label="$t('home.home')">
-            <NIcon size="25" :component="Home2" />
+      <div class="main-content-layout">
+        <div flex items-center justify-center gap-2>
+          <c-button
+            circle
+            variant="text"
+            :aria-label="$t('home.toggleMenu')"
+            @click="styleStore.isMenuCollapsed = !styleStore.isMenuCollapsed"
+          >
+            <NIcon size="25" :component="Menu2" />
           </c-button>
-        </c-tooltip>
 
-        <c-tooltip :tooltip="$t('home.uiLib')" position="bottom">
-          <c-button v-if="config.app.env === 'development'" to="/c-lib" circle variant="text" :aria-label="$t('home.uiLib')">
-            <icon-mdi:brush-variant text-20px />
-          </c-button>
-        </c-tooltip>
+          <c-tooltip :tooltip="$t('home.home')" position="bottom">
+            <c-button to="/" circle variant="text" :aria-label="$t('home.home')">
+              <NIcon size="25" :component="Home2" />
+            </c-button>
+          </c-tooltip>
 
-        <command-palette />
+          <c-tooltip :tooltip="$t('home.uiLib')" position="bottom">
+            <c-button v-if="config.app.env === 'development'" to="/c-lib" circle variant="text" :aria-label="$t('home.uiLib')">
+              <icon-mdi:brush-variant text-20px />
+            </c-button>
+          </c-tooltip>
 
-        <locale-selector v-if="!styleStore.isSmallScreen" />
+          <command-palette />
 
-        <div>
-          <NavbarButtons v-if="!styleStore.isSmallScreen" />
+          <locale-selector v-if="!styleStore.isSmallScreen" />
+
+          <div>
+            <NavbarButtons v-if="!styleStore.isSmallScreen" />
+          </div>
+
+          <c-tooltip position="bottom" :tooltip="$t('home.support')">
+            <c-button
+              round
+              href="https://tools.afeiii.com"
+              rel="noopener"
+              target="_blank"
+              class="support-button"
+              :bordered="false"
+              @click="() => tracker.trackEvent({ eventName: 'Support button clicked' })"
+            >
+              {{ $t('home.buyMeACoffee') }}
+              <NIcon v-if="!styleStore.isSmallScreen" :component="Heart" ml-2 />
+            </c-button>
+          </c-tooltip>
         </div>
 
-        <c-tooltip position="bottom" :tooltip="$t('home.support')">
-          <c-button
-            round
-            href="https://www.buymeacoffee.com/cthmsst"
-            rel="noopener"
-            target="_blank"
-            class="support-button"
-            :bordered="false"
-            @click="() => tracker.trackEvent({ eventName: 'Support button clicked' })"
-          >
-            {{ $t('home.buyMeACoffee') }}
-            <NIcon v-if="!styleStore.isSmallScreen" :component="Heart" ml-2 />
-          </c-button>
-        </c-tooltip>
+        <div class="main-page-slot">
+          <slot />
+        </div>
+
+        <AppFooter />
       </div>
-      <slot />
     </template>
   </MenuLayout>
 </template>
@@ -177,6 +185,16 @@ const tools = computed<ToolCategory[]>(() => [
   padding-bottom: 200px;
 }
 
+.main-content-layout {
+  min-height: calc(100vh - 52px);
+  display: flex;
+  flex-direction: column;
+}
+
+.main-page-slot {
+  flex: 1 0 auto;
+}
+
 .hero-wrapper {
   position: absolute;
   display: block;
@@ -194,12 +212,13 @@ const tools = computed<ToolCategory[]>(() => [
     left: 0;
     width: 100%;
     text-align: center;
-    top: 16px;
+    top: 18px;
     color: #fff;
 
     .title {
-      font-size: 25px;
-      font-weight: 600;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
     }
 
     .divider {
@@ -207,11 +226,16 @@ const tools = computed<ToolCategory[]>(() => [
       height: 2px;
       border-radius: 4px;
       background-color: v-bind('themeVars.primaryColor');
-      margin: 0 auto 5px;
+      margin: 2px auto 6px;
     }
 
     .subtitle {
-      font-size: 16px;
+      font-size: 13px;
+      opacity: 0.92;
+      padding: 0 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 }
