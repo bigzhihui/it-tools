@@ -26,6 +26,10 @@ const showContactModal = ref(false);
           关于本站
         </RouterLink>
         <span class="divider">|</span>
+        <RouterLink to="/support" class="footer-link">
+          支持本站
+        </RouterLink>
+        <span class="divider">|</span>
         <button class="footer-link" @click="showContactModal = true">
           联系站长
         </button>
@@ -94,8 +98,8 @@ const showContactModal = ref(false);
             <n-icon size="20" :component="IconBrandGithub" />
           </div>
           <div class="contact-info">
-            <div class="contact-label">开源仓库 Issues</div>
-            <a href="https://github.com/bigzhihui/it-tools/issues" target="_blank" rel="noopener noreferrer" class="contact-value flex items-center">
+            <div class="contact-label">GitHub 仓库 (本站源码)</div>
+            <a href="https://github.com/bigzhihui/it-tools" target="_blank" rel="noopener noreferrer" class="contact-value flex items-center">
               github.com/bigzhihui/it-tools
               <n-icon size="14" :component="IconExternalLink" class="ml-1" />
             </a>

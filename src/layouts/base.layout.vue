@@ -125,12 +125,9 @@ const tools = computed<ToolCategory[]>(() => [
           <c-tooltip position="bottom" :tooltip="$t('home.support')">
             <c-button
               round
-              href="https://tools.afeiii.com"
-              rel="noopener"
-              target="_blank"
+              to="/support"
               class="support-button"
               :bordered="false"
-              @click="() => tracker.trackEvent({ eventName: 'Support button clicked' })"
             >
               {{ $t('home.buyMeACoffee') }}
               <NIcon v-if="!styleStore.isSmallScreen" :component="Heart" ml-2 />

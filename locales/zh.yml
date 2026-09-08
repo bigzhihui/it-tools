@@ -31,9 +31,15 @@ about:
   content: >
     # 关于 十三月工具箱
 
-    十三月工具箱（[tools.afeiii.com](https://tools.afeiii.com)）汇集了面向开发人员和 IT 从业者的海量实用工具。纯前端运算，保障隐私安全。如果对您有所帮助，欢迎分享给您的同事与朋友，并加入收藏夹！
+    十三月工具箱（[tools.afeiii.com](https://tools.afeiii.com)）汇集了面向开发人员和 IT 从业者的海量实用工具。纯前端运算，保障隐私安全。如果对您有所帮助，欢迎分享给身边的朋友并加入收藏夹！
 
     本工具箱永久免费且开源，持续维护并扩充各类开发小工具。
+
+    ## 开源致谢与版权
+
+    十三月工具箱基于知名开源项目 [IT-Tools](https://github.com/CorentinTh/it-tools) 进行汉化与个性化定制，原作者为 [Corentin Thomasset](https://github.com/CorentinTh)。
+
+    本项目遵循开源协议，本站定制源码托管于 [GitHub 仓库](https://github.com/bigzhihui/it-tools)。向原作者与开源社区致敬！
 
     ## 技术架构
 
@@ -41,7 +47,7 @@ about:
 
     ## 反馈与交流
 
-    如果您发现了 Bug，或者有希望加入的新工具，欢迎在 [GitHub Issues](https://github.com/bigzhihui/it-tools/issues) 提交反馈与建议。
+    如果您在使用中发现了 Bug，或者有希望加入的新工具，欢迎在 [GitHub Issues](https://github.com/bigzhihui/it-tools/issues) 提交反馈与建议。
 
 404:
   notFound: '404 页面不存在'
