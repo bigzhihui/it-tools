@@ -21,15 +21,15 @@ const showContactModal = ref(false);
         <button class="footer-link" @click="showPrivacyModal = true">
           {{ $t('footer.privacyPolicy') }}
         </button>
-        <span class="divider">|</span>
+        <span class="footer-divider" aria-hidden="true">|</span>
         <RouterLink to="/about" class="footer-link">
           {{ $t('footer.about') }}
         </RouterLink>
-        <span class="divider">|</span>
+        <span class="footer-divider" aria-hidden="true">|</span>
         <RouterLink to="/support" class="footer-link">
           {{ $t('footer.support') }}
         </RouterLink>
-        <span class="divider">|</span>
+        <span class="footer-divider" aria-hidden="true">|</span>
         <button class="footer-link" @click="showContactModal = true">
           {{ $t('footer.contact') }}
         </button>
@@ -155,12 +155,16 @@ const showContactModal = ref(false);
 
   .links {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 12px;
+    gap: 4px 12px;
     color: rgba(128, 128, 128, 0.7);
 
-    .divider {
+    .footer-divider {
+      height: auto;
+      line-height: 1;
+      background: none;
       opacity: 0.4;
       font-size: 12px;
       user-select: none;
@@ -170,6 +174,7 @@ const showContactModal = ref(false);
       background: none;
       border: none;
       padding: 0;
+      white-space: nowrap;
       color: rgba(128, 128, 128, 0.85);
       font-size: 13px;
       cursor: pointer;
