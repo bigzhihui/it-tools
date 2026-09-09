@@ -1,13 +1,16 @@
 <script setup lang="ts">
 import { useThemeVars } from 'naive-ui';
-import Memo from './git-memo.content.md';
+import MemoEn from './git-memo.content.md';
+import MemoZh from './git-memo.content.zh.md';
 
 const themeVars = useThemeVars();
+const { locale } = useI18n();
 </script>
 
 <template>
   <div>
-    <Memo />
+    <MemoZh v-if="locale === 'zh'" />
+    <MemoEn v-else />
   </div>
 </template>
 

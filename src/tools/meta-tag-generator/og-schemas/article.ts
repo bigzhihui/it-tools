@@ -1,33 +1,33 @@
 import type { OGSchemaType } from '../OGSchemaType.type';
 
 export const article: OGSchemaType = {
-  name: 'Article',
+  name: 'tools.og-meta-generator.sections.article',
   elements: [
     {
       type: 'input',
-      label: 'Publishing date',
+      label: 'tools.og-meta-generator.fields.publishingDate',
       key: 'article:published_time',
-      placeholder: 'When the article was first published...',
+      placeholder: 'tools.og-meta-generator.placeholders.publishingDate',
     },
     {
       type: 'input',
-      label: 'Modification date',
+      label: 'tools.og-meta-generator.fields.modificationDate',
       key: 'article:modified_time',
-      placeholder: 'When the article was last changed...',
+      placeholder: 'tools.og-meta-generator.placeholders.modificationDate',
     },
     {
       type: 'input',
-      label: 'Expiration date',
+      label: 'tools.og-meta-generator.fields.expirationDate',
       key: 'article:expiration_time',
-      placeholder: 'When the article is out of date after...',
+      placeholder: 'tools.og-meta-generator.placeholders.expirationDate',
     },
-    { type: 'input', label: 'Author', key: 'article:author', placeholder: 'Writers of the article...' },
+    { type: 'input', label: 'tools.og-meta-generator.fields.author', key: 'article:author', placeholder: 'tools.og-meta-generator.placeholders.author' },
     {
       type: 'input',
-      label: 'Section',
+      label: 'tools.og-meta-generator.fields.section',
       key: 'article:section',
-      placeholder: 'A high-level section name. E.g. Technology..',
+      placeholder: 'tools.og-meta-generator.placeholders.section',
     },
-    { type: 'input', label: 'Tag', key: 'article:tag', placeholder: 'Tag words associated with this article...' },
+    { type: 'input', label: 'tools.og-meta-generator.fields.tag', key: 'article:tag', placeholder: 'tools.og-meta-generator.placeholders.tag' },
   ],
 };

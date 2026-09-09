@@ -5,6 +5,8 @@ import { image, ogSchemas, twitter, website } from './og-schemas';
 import type { OGSchemaType, OGSchemaTypeElementSelect } from './OGSchemaType.type';
 import TextareaCopyable from '@/components/TextareaCopyable.vue';
 
+const { t } = useI18n();
+
 // Since type guards do not work in template
 
 const metadata = ref<{ type: string; [k: string]: any }>({
@@ -48,26 +50,45 @@ const metaTags = computed(() => {
 
   return generateMeta({ ...otherMeta, twitter: twitterMeta }, { generateTwitterCompatibleMeta: true });
 });
+
+function translateOptions(options: Array<any>): Array<any> {
+  return options.map((opt) => {
+    if ('children' in opt && Array.isArray(opt.children)) {
+      return {
+        ...opt,
+        label: t(opt.label),
+        children: opt.children.map((child: any) => ({
+          ...child,
+          label: t(child.label),
+        })),
+      };
+    }
+    return {
+      ...opt,
+      label: t(opt.label),
+    };
+  });
+}
 </script>
 
 <template>
   <div>
     <div v-for="{ name, elements } of sections" :key="name" style="margin-bottom: 15px">
       <div mb-5px>
-        {{ name }}
+        {{ t(name) }}
       </div>
 
       <n-input-group v-for="{ key, type, label, placeholder, ...element } of elements" :key="key">
         <n-input-group-label style="flex: 0 0 110px">
-          {{ label }}
+          {{ t(label) }}
         </n-input-group-label>
 
-        <c-input-text v-if="type === 'input'" v-model:value="metadata[key]" :placeholder="placeholder" clearable />
+        <c-input-text v-if="type === 'input'" v-model:value="metadata[key]" :placeholder="t(placeholder)" clearable />
         <n-dynamic-input
           v-else-if="type === 'input-multiple'"
           v-model:value="metadata[key]"
           :min="1"
-          :placeholder="placeholder"
+          :placeholder="t(placeholder)"
           :default-value="['']"
           :show-sort-button="true"
         />
@@ -76,14 +97,14 @@ const metaTags = computed(() => {
           v-else-if="type === 'select'"
           v-model:value="metadata[key]"
           w-full
-          :placeholder="placeholder"
-          :options="(element as OGSchemaTypeElementSelect).options"
+          :placeholder="t(placeholder)"
+          :options="translateOptions((element as OGSchemaTypeElementSelect).options)"
         />
       </n-input-group>
     </div>
   </div>
   <div>
-    <n-form-item label="Your meta tags">
+    <n-form-item :label="t('tools.og-meta-generator.yourMetaTags')">
       <TextareaCopyable :value="metaTags" language="html" />
     </n-form-item>
   </div>

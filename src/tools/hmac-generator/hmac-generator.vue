@@ -11,9 +11,12 @@ import {
   HmacSHA512,
   enc,
 } from 'crypto-js';
+import { useI18n } from 'vue-i18n';
 
 import { convertHexToBin } from '../hash-text/hash-text.service';
 import { useCopy } from '@/composable/copy';
+
+const { t } = useI18n();
 
 const algos = {
   MD5: HmacMD5,
@@ -43,48 +46,72 @@ const hmac = computed(() =>
   formatWithEncoding(algos[hashFunction.value](plainText.value, secret.value), encoding.value),
 );
 const { copy } = useCopy({ source: hmac });
+
+const encodingOptions = computed(() => [
+  {
+    label: t('tools.hash-text.encoding.bin'),
+    value: 'Bin',
+  },
+  {
+    label: t('tools.hash-text.encoding.hex'),
+    value: 'Hex',
+  },
+  {
+    label: t('tools.hash-text.encoding.base64'),
+    value: 'Base64',
+  },
+  {
+    label: t('tools.hash-text.encoding.base64url'),
+    value: 'Base64url',
+  },
+]);
 </script>
 
 <template>
   <div flex flex-col gap-4>
-    <c-input-text v-model:value="plainText" multiline raw-text placeholder="Plain text to compute the hash..." rows="3" autosize autofocus label="Plain text to compute the hash" />
-    <c-input-text v-model:value="secret" raw-text placeholder="Enter the secret key..." label="Secret key" clearable />
+    <c-input-text
+      v-model:value="plainText"
+      multiline
+      raw-text
+      :placeholder="t('tools.hmac-generator.plainTextPlaceholder')"
+      rows="3"
+      autosize
+      autofocus
+      :label="t('tools.hmac-generator.plainText')"
+    />
+    <c-input-text
+      v-model:value="secret"
+      raw-text
+      :placeholder="t('tools.hmac-generator.secretKeyPlaceholder')"
+      :label="t('tools.hmac-generator.secretKey')"
+      clearable
+    />
 
     <div flex gap-2>
       <c-select
-        v-model:value="hashFunction" label="Hashing function"
+        v-model:value="hashFunction"
+        :label="t('tools.hmac-generator.hashingFunction')"
         flex-1
-        placeholder="Select an hashing function..."
+        :placeholder="t('tools.hmac-generator.hashingFunctionPlaceholder')"
         :options="Object.keys(algos).map((label) => ({ label, value: label }))"
       />
       <c-select
-        v-model:value="encoding" label="Output encoding"
+        v-model:value="encoding"
+        :label="t('tools.hmac-generator.outputEncoding')"
         flex-1
-        placeholder="Select the result encoding..."
-        :options="[
-          {
-            label: 'Binary (base 2)',
-            value: 'Bin',
-          },
-          {
-            label: 'Hexadecimal (base 16)',
-            value: 'Hex',
-          },
-          {
-            label: 'Base64 (base 64)',
-            value: 'Base64',
-          },
-          {
-            label: 'Base64-url (base 64 with url safe chars)',
-            value: 'Base64url',
-          },
-        ]"
+        :placeholder="t('tools.hmac-generator.outputEncodingPlaceholder')"
+        :options="encodingOptions"
       />
     </div>
-    <input-copyable v-model:value="hmac" type="textarea" placeholder="The result of the HMAC..." label="HMAC of your text" />
+    <input-copyable
+      v-model:value="hmac"
+      type="textarea"
+      :placeholder="t('tools.hmac-generator.hmacPlaceholder')"
+      :label="t('tools.hmac-generator.hmacLabel')"
+    />
     <div flex justify-center>
-      <c-button @click="copy()">
-        Copy HMAC
+      <c-button @click="copy(undefined, { notificationMessage: t('common.copied') })">
+        {{ t('tools.hmac-generator.copyHmac') }}
       </c-button>
     </div>
   </div>

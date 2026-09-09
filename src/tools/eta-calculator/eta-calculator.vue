@@ -1,11 +1,9 @@
 <script setup lang="ts">
-// Duplicate issue with sub directory
-
 import { addMilliseconds, formatRelative } from 'date-fns';
-
-import { enGB } from 'date-fns/locale';
-
+import { enGB, zhCN } from 'date-fns/locale';
 import { formatMsDuration } from './eta-calculator.service';
+
+const { t, locale } = useI18n();
 
 const unitCount = ref(3 * 62);
 const unitPerTimeSpan = ref(3);
@@ -18,55 +16,59 @@ const durationMs = computed(() => {
 
   return unitCount.value / (unitPerTimeSpan.value / timeSpanMs);
 });
+
+const dateFnsLocale = computed(() => (locale.value === 'zh' ? zhCN : enGB));
+
 const endAt = computed(() =>
-  formatRelative(addMilliseconds(startedAt.value, durationMs.value), Date.now(), { locale: enGB }),
+  formatRelative(addMilliseconds(startedAt.value, durationMs.value), Date.now(), { locale: dateFnsLocale.value }),
 );
+
+const timeSpanOptions = computed(() => [
+  { label: t('tools.eta-calculator.units.milliseconds'), value: 1 },
+  { label: t('tools.eta-calculator.units.seconds'), value: 1000 },
+  { label: t('tools.eta-calculator.units.minutes'), value: 1000 * 60 },
+  { label: t('tools.eta-calculator.units.hours'), value: 1000 * 60 * 60 },
+  { label: t('tools.eta-calculator.units.days'), value: 1000 * 60 * 60 * 24 },
+]);
 </script>
 
 <template>
   <div>
     <div text-justify op-70>
-      With a concrete example, if you wash 5 plates in 3 minutes and you have 500 plates to wash, it will take you 5
-      hours to wash them all.
+      {{ $t('tools.eta-calculator.example') }}
     </div>
     <n-divider />
     <div flex gap-2>
-      <n-form-item label="Amount of element to consume" flex-1>
+      <n-form-item :label="$t('tools.eta-calculator.elementCount')" flex-1>
         <n-input-number v-model:value="unitCount" :min="1" />
       </n-form-item>
-      <n-form-item label="The consumption started at" flex-1>
+      <n-form-item :label="$t('tools.eta-calculator.startedAt')" flex-1>
         <n-date-picker v-model:value="startedAt" type="datetime" />
       </n-form-item>
     </div>
 
-    <p>Amount of unit consumed by time span</p>
+    <p>{{ $t('tools.eta-calculator.unitConsumedTitle') }}</p>
     <div flex flex-col items-baseline gap-y-2 md:flex-row>
       <n-input-number v-model:value="unitPerTimeSpan" :min="1" />
       <div flex items-baseline gap-2>
-        <span ml-2>in</span>
+        <span ml-2>{{ $t('tools.eta-calculator.in') }}</span>
         <n-input-number v-model:value="timeSpan" min-w-130px :min="1" />
         <c-select
           v-model:value="timeSpanUnitMultiplier"
           min-w-130px
-          :options="[
-            { label: 'milliseconds', value: 1 },
-            { label: 'seconds', value: 1000 },
-            { label: 'minutes', value: 1000 * 60 },
-            { label: 'hours', value: 1000 * 60 * 60 },
-            { label: 'days', value: 1000 * 60 * 60 * 24 },
-          ]"
+          :options="timeSpanOptions"
         />
       </div>
     </div>
 
     <n-divider />
     <c-card mb-2>
-      <n-statistic label="Total duration">
+      <n-statistic :label="$t('tools.eta-calculator.totalDuration')">
         {{ formatMsDuration(durationMs) }}
       </n-statistic>
     </c-card>
     <c-card>
-      <n-statistic label="It will end ">
+      <n-statistic :label="$t('tools.eta-calculator.itWillEnd')">
         {{ endAt }}
       </n-statistic>
     </c-card>

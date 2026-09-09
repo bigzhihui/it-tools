@@ -1,55 +1,55 @@
 import type { OGSchemaType } from '../OGSchemaType.type';
 
 const typeOptions = [
-  { label: 'Website', value: 'website' },
-  { label: 'Article', value: 'article' },
-  { label: 'Book', value: 'book' },
-  { label: 'Profile', value: 'profile' },
+  { label: 'tools.og-meta-generator.typeOptions.website', value: 'website' },
+  { label: 'tools.og-meta-generator.typeOptions.article', value: 'article' },
+  { label: 'tools.og-meta-generator.typeOptions.book', value: 'book' },
+  { label: 'tools.og-meta-generator.typeOptions.profile', value: 'profile' },
   {
     type: 'group',
-    label: 'Music',
+    label: 'tools.og-meta-generator.typeOptions.music',
     key: 'Music',
     children: [
-      { label: 'Song', value: 'music.song' },
-      { label: 'Music album', value: 'music.album' },
-      { label: 'Playlist', value: 'music.playlist' },
-      { label: 'Radio station', value: 'music.radio_station' },
+      { label: 'tools.og-meta-generator.typeOptions.song', value: 'music.song' },
+      { label: 'tools.og-meta-generator.typeOptions.musicAlbum', value: 'music.album' },
+      { label: 'tools.og-meta-generator.typeOptions.playlist', value: 'music.playlist' },
+      { label: 'tools.og-meta-generator.typeOptions.radioStation', value: 'music.radio_station' },
     ],
   },
   {
     type: 'group',
-    label: 'Video',
+    label: 'tools.og-meta-generator.typeOptions.video',
     key: 'Video',
     children: [
-      { label: 'Movie', value: 'video.movie' },
-      { label: 'Episode', value: 'video.episode' },
-      { label: 'TV show', value: 'video.tv_show' },
-      { label: 'Other video', value: 'video.other' },
+      { label: 'tools.og-meta-generator.typeOptions.movie', value: 'video.movie' },
+      { label: 'tools.og-meta-generator.typeOptions.episode', value: 'video.episode' },
+      { label: 'tools.og-meta-generator.typeOptions.tvShow', value: 'video.tv_show' },
+      { label: 'tools.og-meta-generator.typeOptions.otherVideo', value: 'video.other' },
     ],
   },
 ];
 
 export const website: OGSchemaType = {
-  name: 'General information',
+  name: 'tools.og-meta-generator.sections.generalInfo',
   elements: [
     {
       type: 'select',
-      label: 'Page type',
-      placeholder: 'Select the type of your website...',
+      label: 'tools.og-meta-generator.fields.pageType',
+      placeholder: 'tools.og-meta-generator.placeholders.pageType',
       key: 'type',
       options: typeOptions,
     },
-    { type: 'input', label: 'Title', placeholder: 'Enter the title of your website...', key: 'title' },
+    { type: 'input', label: 'tools.og-meta-generator.fields.title', placeholder: 'tools.og-meta-generator.placeholders.title', key: 'title' },
     {
       type: 'input',
-      label: 'Description',
-      placeholder: 'Enter the description of your website...',
+      label: 'tools.og-meta-generator.fields.description',
+      placeholder: 'tools.og-meta-generator.placeholders.description',
       key: 'description',
     },
     {
       type: 'input',
-      label: 'Page URL',
-      placeholder: 'Enter the url of your website...',
+      label: 'tools.og-meta-generator.fields.pageUrl',
+      placeholder: 'tools.og-meta-generator.placeholders.pageUrl',
       key: 'url',
     },
   ],
