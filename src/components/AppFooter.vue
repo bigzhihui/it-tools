@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { RouterLink } from 'vue-router';
-import { NCard, NModal, NIcon, NButton } from 'naive-ui';
-import { IconShieldCheck, IconMail, IconBrandGithub, IconExternalLink } from '@tabler/icons-vue';
+import { IconBrandGithub, IconExternalLink, IconMail, IconShieldCheck } from '@tabler/icons-vue';
+import { NButton, NIcon, NModal } from 'naive-ui';
 
 const showPrivacyModal = ref(false);
 const showContactModal = ref(false);
@@ -19,101 +19,105 @@ const showContactModal = ref(false);
       <!-- 第二行：合规与导航链接 -->
       <div class="links">
         <button class="footer-link" @click="showPrivacyModal = true">
-          隐私政策
+          {{ $t('footer.privacyPolicy') }}
         </button>
         <span class="divider">|</span>
         <RouterLink to="/about" class="footer-link">
-          关于本站
+          {{ $t('footer.about') }}
         </RouterLink>
         <span class="divider">|</span>
         <RouterLink to="/support" class="footer-link">
-          支持本站
+          {{ $t('footer.support') }}
         </RouterLink>
         <span class="divider">|</span>
         <button class="footer-link" @click="showContactModal = true">
-          联系站长
+          {{ $t('footer.contact') }}
         </button>
       </div>
     </div>
 
     <!-- 隐私政策弹窗 -->
-    <n-modal v-model:show="showPrivacyModal" preset="card" title="隐私政策与安全承诺" style="max-width: 560px;" class="privacy-modal">
+    <NModal v-model:show="showPrivacyModal" preset="card" :title="$t('footer.privacyModalTitle')" style="max-width: 560px;" class="privacy-modal">
       <div class="modal-content">
         <div class="modal-item">
           <div class="item-title">
-            <n-icon :component="IconShieldCheck" class="text-primary mr-1" />
-            纯本地计算保障
+            <NIcon :component="IconShieldCheck" class="mr-1 text-primary" />
+            {{ $t('footer.localCompute') }}
           </div>
           <p class="item-desc">
-            十三月工具箱（tools.afeiii.com）高度重视您的隐私安全。除极少数需请求公网公开 API 的功能外，本站所有加解密、数据转换、文本格式化及运算逻辑均在您的<strong>本地浏览器纯前端运行</strong>。
+            {{ $t('footer.localComputeDesc') }}
           </p>
         </div>
 
         <div class="modal-item">
           <div class="item-title">
-            零数据上传与留存
+            {{ $t('footer.zeroUpload') }}
           </div>
           <p class="item-desc">
-            我们不会收集、储存或上传您在工具中输入的任何敏感信息、业务代码、证书密码或文本内容。您的个人输入数据只留存在您的当前设备中。
+            {{ $t('footer.zeroUploadDesc') }}
           </p>
         </div>
 
         <div class="modal-item">
           <div class="item-title">
-            开源透明与可审计
+            {{ $t('footer.openSource') }}
           </div>
           <p class="item-desc">
-            本站基于开源技术构建，代码对公众开放审查。您可以随时检查浏览器的网络请求（Network）确认没有私自上传行为。
+            {{ $t('footer.openSourceDesc') }}
           </p>
         </div>
       </div>
       <template #footer>
         <div flex justify-end>
-          <n-button type="primary" @click="showPrivacyModal = false">
-            我知道了
-          </n-button>
+          <NButton type="primary" @click="showPrivacyModal = false">
+            {{ $t('footer.understood') }}
+          </NButton>
         </div>
       </template>
-    </n-modal>
+    </NModal>
 
     <!-- 联系站长弹窗 -->
-    <n-modal v-model:show="showContactModal" preset="card" title="联系站长" style="max-width: 500px;" class="contact-modal">
+    <NModal v-model:show="showContactModal" preset="card" :title="$t('footer.contactTitle')" style="max-width: 500px;" class="contact-modal">
       <div class="modal-content">
-        <p class="text-sm text-neutral-400 mb-4">
-          如果您在工具使用过程中遇到 Bug、有新的功能工具诉求或商务交流合作，欢迎随时通过以下方式联系：
+        <p class="mb-4 text-sm text-neutral-400">
+          {{ $t('footer.contactDesc') }}
         </p>
 
         <div class="contact-card">
           <div class="contact-icon">
-            <n-icon size="20" :component="IconMail" />
+            <NIcon size="20" :component="IconMail" />
           </div>
           <div class="contact-info">
-            <div class="contact-label">官方反馈邮箱</div>
+            <div class="contact-label">
+              {{ $t('footer.officialEmail') }}
+            </div>
             <a href="mailto:support@afeiii.com" class="contact-value">support@afeiii.com</a>
           </div>
         </div>
 
         <div class="contact-card mt-3">
           <div class="contact-icon">
-            <n-icon size="20" :component="IconBrandGithub" />
+            <NIcon size="20" :component="IconBrandGithub" />
           </div>
           <div class="contact-info">
-            <div class="contact-label">GitHub 仓库 (本站源码)</div>
+            <div class="contact-label">
+              {{ $t('footer.githubRepo') }}
+            </div>
             <a href="https://github.com/bigzhihui/it-tools" target="_blank" rel="noopener noreferrer" class="contact-value flex items-center">
               github.com/bigzhihui/it-tools
-              <n-icon size="14" :component="IconExternalLink" class="ml-1" />
+              <NIcon size="14" :component="IconExternalLink" class="ml-1" />
             </a>
           </div>
         </div>
       </div>
       <template #footer>
         <div flex justify-end>
-          <n-button type="primary" @click="showContactModal = false">
-            关闭
-          </n-button>
+          <NButton type="primary" @click="showContactModal = false">
+            {{ $t('common.close') }}
+          </NButton>
         </div>
       </template>
-    </n-modal>
+    </NModal>
   </footer>
 </template>
 

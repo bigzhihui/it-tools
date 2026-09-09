@@ -1,7 +1,11 @@
 <script setup lang="ts">
 import { useHead } from '@vueuse/head';
 
-useHead({ title: '关于本站 - 十三月工具箱' });
+const { t } = useI18n();
+
+useHead(computed(() => ({
+  title: `${t('home.nav.about')} - ${t('brand.name')}`,
+})));
 </script>
 
 <template>

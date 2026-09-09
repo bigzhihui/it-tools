@@ -10,8 +10,11 @@ import { config } from '@/config';
 
 const toolStore = useToolStore();
 
-useHead({ title: '十三月工具箱 - 程序员实用在线工具百宝箱' });
 const { t } = useI18n();
+
+useHead(computed(() => ({
+  title: `${t('brand.name')} - ${t('home.subtitle')}`,
+})));
 
 const favoriteTools = computed(() => toolStore.favoriteTools);
 

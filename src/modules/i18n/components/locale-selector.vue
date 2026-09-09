@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const { availableLocales, locale } = useI18n();
+const { availableLocales, locale, t } = useI18n();
 
 const localesLong: Record<string, string> = {
   en: 'English',
@@ -26,7 +26,7 @@ const localeOptions = computed(() =>
   <c-select
     v-model:value="locale"
     :options="localeOptions"
-    placeholder="Select a language"
+    :placeholder="t('localeSelector.placeholder')"
     w-100px
   />
 </template>

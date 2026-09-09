@@ -4,7 +4,7 @@ import type { Plugin } from 'vue';
 import { createI18n } from 'vue-i18n';
 
 // 默认首选简体中文 (zh)，若用户未手动设定则始终为中文
-const getInitialLocale = () => {
+function getInitialLocale() {
   if (typeof window !== 'undefined') {
     const saved = localStorage.getItem('locale');
     if (saved) {
@@ -13,19 +13,22 @@ const getInitialLocale = () => {
         if (parsed && typeof parsed === 'string') {
           return parsed;
         }
-      } catch {
+      }
+      catch {
         const clean = saved.replace(/^"|"$/g, '');
-        if (clean) return clean;
+        if (clean) {
+          return clean;
+        }
       }
     }
   }
   return 'zh';
-};
+}
 
 const i18n = createI18n({
   legacy: false,
   locale: getInitialLocale(),
-  fallbackLocale: 'zh',
+  fallbackLocale: 'en',
   messages,
 });
 

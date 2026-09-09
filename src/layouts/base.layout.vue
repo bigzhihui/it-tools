@@ -21,7 +21,7 @@ const styleStore = useStyleStore();
 const version = config.app.version;
 const commitSha = config.app.lastCommitSha.slice(0, 7);
 
-const { tracker } = useTracker();
+useTracker();
 const { t } = useI18n();
 
 const toolStore = useToolStore();
@@ -40,7 +40,7 @@ const tools = computed<ToolCategory[]>(() => [
         <HeroGradient class="gradient" />
         <div class="text-wrapper">
           <div class="title">
-            十三月工具箱
+            {{ $t('brand.name', '十三月工具箱') }}
           </div>
           <div class="divider" />
           <div class="subtitle">
@@ -62,7 +62,7 @@ const tools = computed<ToolCategory[]>(() => [
 
         <div class="footer">
           <div>
-            十三月工具箱
+            {{ $t('brand.name', '十三月工具箱') }}
 
             <c-link target="_blank" rel="noopener" href="https://github.com/bigzhihui/it-tools">
               v{{ version }}
