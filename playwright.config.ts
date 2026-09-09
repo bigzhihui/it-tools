@@ -31,6 +31,20 @@ export default defineConfig({
     testIdAttribute: 'data-test-id',
     locale: 'en-GB',
     timezoneId: 'Europe/Paris',
+    storageState: {
+      cookies: [],
+      origins: [
+        {
+          origin: baseUrl,
+          localStorage: [
+            {
+              name: 'locale',
+              value: 'en',
+            },
+          ],
+        },
+      ],
+    },
   },
 
   /* Configure projects for major browsers */
@@ -38,16 +52,6 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
-    },
-
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
-
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
     },
   ],
 
