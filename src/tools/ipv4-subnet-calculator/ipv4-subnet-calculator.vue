@@ -7,71 +7,73 @@ import { withDefaultOnError } from '@/utils/defaults';
 import { isNotThrowing } from '@/utils/boolean';
 import SpanCopyable from '@/components/SpanCopyable.vue';
 
+const { t } = useI18n();
+
 const ip = useStorage('ipv4-subnet-calculator:ip', '192.168.0.1/24');
 
 const getNetworkInfo = (address: string) => new Netmask(address.trim());
 
 const networkInfo = computed(() => withDefaultOnError(() => getNetworkInfo(ip.value), undefined));
 
-const ipValidationRules = [
+const ipValidationRules = computed(() => [
   {
-    message: 'We cannot parse this address, check the format',
+    message: t('tools.ipv4-subnet-calculator.invalidAddress'),
     validator: (value: string) => isNotThrowing(() => getNetworkInfo(value.trim())),
   },
-];
+]);
 
-const sections: {
+const sections = computed<{
   label: string
   getValue: (blocks: Netmask) => string | undefined
   undefinedFallback?: string
-}[] = [
-  {
-    label: 'Netmask',
-    getValue: block => block.toString(),
-  },
-  {
-    label: 'Network address',
-    getValue: ({ base }) => base,
-  },
-  {
-    label: 'Network mask',
-    getValue: ({ mask }) => mask,
-  },
-  {
-    label: 'Network mask in binary',
-    getValue: ({ bitmask }) => ('1'.repeat(bitmask) + '0'.repeat(32 - bitmask)).match(/.{8}/g)?.join('.') ?? '',
-  },
-  {
-    label: 'CIDR notation',
-    getValue: ({ bitmask }) => `/${bitmask}`,
-  },
-  {
-    label: 'Wildcard mask',
-    getValue: ({ hostmask }) => hostmask,
-  },
-  {
-    label: 'Network size',
-    getValue: ({ size }) => String(size),
-  },
-  {
-    label: 'First address',
-    getValue: ({ first }) => first,
-  },
-  {
-    label: 'Last address',
-    getValue: ({ last }) => last,
-  },
-  {
-    label: 'Broadcast address',
-    getValue: ({ broadcast }) => broadcast,
-    undefinedFallback: 'No broadcast address with this mask',
-  },
-  {
-    label: 'IP class',
-    getValue: ({ base: ip }) => getIPClass({ ip }),
-    undefinedFallback: 'Unknown class type',
-  },
-];
+}[]>(() => [
+      {
+        label: t('tools.ipv4-subnet-calculator.sections.netmask'),
+        getValue: block => block.toString(),
+      },
+      {
+        label: t('tools.ipv4-subnet-calculator.sections.networkAddress'),
+        getValue: ({ base }) => base,
+      },
+      {
+        label: t('tools.ipv4-subnet-calculator.sections.networkMask'),
+        getValue: ({ mask }) => mask,
+      },
+      {
+        label: t('tools.ipv4-subnet-calculator.sections.networkMaskBinary'),
+        getValue: ({ bitmask }) => ('1'.repeat(bitmask) + '0'.repeat(32 - bitmask)).match(/.{8}/g)?.join('.') ?? '',
+      },
+      {
+        label: t('tools.ipv4-subnet-calculator.sections.cidrNotation'),
+        getValue: ({ bitmask }) => `/${bitmask}`,
+      },
+      {
+        label: t('tools.ipv4-subnet-calculator.sections.wildcardMask'),
+        getValue: ({ hostmask }) => hostmask,
+      },
+      {
+        label: t('tools.ipv4-subnet-calculator.sections.networkSize'),
+        getValue: ({ size }) => String(size),
+      },
+      {
+        label: t('tools.ipv4-subnet-calculator.sections.firstAddress'),
+        getValue: ({ first }) => first,
+      },
+      {
+        label: t('tools.ipv4-subnet-calculator.sections.lastAddress'),
+        getValue: ({ last }) => last,
+      },
+      {
+        label: t('tools.ipv4-subnet-calculator.sections.broadcastAddress'),
+        getValue: ({ broadcast }) => broadcast,
+        undefinedFallback: t('tools.ipv4-subnet-calculator.sections.noBroadcastFallback'),
+      },
+      {
+        label: t('tools.ipv4-subnet-calculator.sections.ipClass'),
+        getValue: ({ base: ip }) => getIPClass({ ip }),
+        undefinedFallback: t('tools.ipv4-subnet-calculator.sections.unknownClassFallback'),
+      },
+    ]);
 
 function switchToBlock({ count = 1 }: { count?: number }) {
   const next = networkInfo.value?.next(count);
@@ -86,8 +88,8 @@ function switchToBlock({ count = 1 }: { count?: number }) {
   <div>
     <c-input-text
       v-model:value="ip"
-      label="An IPv4 address with or without mask"
-      placeholder="The ipv4 address..."
+      :label="$t('tools.ipv4-subnet-calculator.inputLabel')"
+      :placeholder="$t('tools.ipv4-subnet-calculator.inputPlaceholder')"
       :validation-rules="ipValidationRules"
       mb-4
     />
@@ -112,10 +114,10 @@ function switchToBlock({ count = 1 }: { count?: number }) {
       <div mt-3 flex items-center justify-between>
         <c-button @click="switchToBlock({ count: -1 })">
           <n-icon :component="ArrowLeft" />
-          Previous block
+          {{ $t('tools.ipv4-subnet-calculator.previousBlock') }}
         </c-button>
         <c-button @click="switchToBlock({ count: 1 })">
-          Next block
+          {{ $t('tools.ipv4-subnet-calculator.nextBlock') }}
           <n-icon :component="ArrowRight" />
         </c-button>
       </div>

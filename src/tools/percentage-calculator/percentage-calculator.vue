@@ -34,43 +34,61 @@ const percentageIncreaseDecrease = computed(() => {
     <div style="margin: 0 auto; max-width: 600px">
       <c-card mb-3>
         <div mb-3 sm:hidden>
-          What is
+          {{ $t('tools.percentage-calculator.card1.whatIs') }}
         </div>
         <div flex gap-2>
           <div hidden pt-1 sm:block style="min-width: 48px;">
-            What is
+            {{ $t('tools.percentage-calculator.card1.whatIs') }}
           </div>
           <n-input-number v-model:value="percentageX" data-test-id="percentageX" placeholder="X" />
           <div min-w-fit pt-1>
-            % of
+            {{ $t('tools.percentage-calculator.card1.percentOf') }}
           </div>
           <n-input-number v-model:value="percentageY" data-test-id="percentageY" placeholder="Y" />
-          <input-copyable v-model:value="percentageResult" data-test-id="percentageResult" readonly placeholder="Result" style="max-width: 150px;" />
+          <input-copyable
+            v-model:value="percentageResult"
+            data-test-id="percentageResult"
+            readonly
+            :placeholder="$t('tools.percentage-calculator.result')"
+            style="max-width: 150px;"
+          />
         </div>
       </c-card>
 
       <c-card mb-3>
         <div mb-3 sm:hidden>
-          X is what percent of Y
+          {{ $t('tools.percentage-calculator.card2.mobileTitle') }}
         </div>
         <div flex gap-2>
           <n-input-number v-model:value="numberX" data-test-id="numberX" placeholder="X" />
           <div hidden min-w-fit pt-1 sm:block>
-            is what percent of
+            {{ $t('tools.percentage-calculator.card2.isWhatPercentOf') }}
           </div>
           <n-input-number v-model:value="numberY" data-test-id="numberY" placeholder="Y" />
-          <input-copyable v-model:value="numberResult" data-test-id="numberResult" readonly placeholder="Result" style="max-width: 150px;" />
+          <input-copyable
+            v-model:value="numberResult"
+            data-test-id="numberResult"
+            readonly
+            :placeholder="$t('tools.percentage-calculator.result')"
+            style="max-width: 150px;"
+          />
         </div>
       </c-card>
 
       <c-card mb-3>
         <div mb-3>
-          What is the percentage increase/decrease
+          {{ $t('tools.percentage-calculator.card3.title') }}
         </div>
         <div flex gap-2>
-          <n-input-number v-model:value="numberFrom" data-test-id="numberFrom" placeholder="From" />
-          <n-input-number v-model:value="numberTo" data-test-id="numberTo" placeholder="To" />
-          <input-copyable v-model:value="percentageIncreaseDecrease" data-test-id="percentageIncreaseDecrease" readonly placeholder="Result" style="max-width: 150px;" />
+          <n-input-number v-model:value="numberFrom" data-test-id="numberFrom" :placeholder="$t('tools.percentage-calculator.card3.from')" />
+          <n-input-number v-model:value="numberTo" data-test-id="numberTo" :placeholder="$t('tools.percentage-calculator.card3.to')" />
+          <input-copyable
+            v-model:value="percentageIncreaseDecrease"
+            data-test-id="percentageIncreaseDecrease"
+            readonly
+            :placeholder="$t('tools.percentage-calculator.result')"
+            style="max-width: 150px;"
+          />
         </div>
       </c-card>
     </div>

@@ -43,7 +43,7 @@ const { searchResult } = useFuzzySearch({
     <div flex items-center gap-3>
       <c-input-text
         v-model:value="searchQuery"
-        placeholder="Search emojis (e.g. 'smile')..."
+        :placeholder="$t('tools.emoji-picker.searchPlaceholder')"
         mx-auto max-w-600px
       >
         <template #prefix>
@@ -59,12 +59,12 @@ const { searchResult } = useFuzzySearch({
         text-20px
         font-bold
       >
-        No results
+        {{ $t('tools.emoji-picker.noResults') }}
       </div>
 
       <div v-else>
         <div mt-4 text-20px font-bold>
-          Search result
+          {{ $t('tools.emoji-picker.searchResult') }}
         </div>
 
         <emoji-grid :emoji-infos="searchResult" />

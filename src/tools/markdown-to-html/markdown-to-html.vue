@@ -22,22 +22,23 @@ function printHtml() {
   <div>
     <c-input-text
       v-model:value="inputMarkdown"
-      multiline raw-text
-      placeholder="Your Markdown content..."
+      multiline
+      raw-text
+      :placeholder="$t('tools.markdown-to-html.inputPlaceholder')"
       rows="8"
       autofocus
-      label="Your Markdown to convert:"
+      :label="$t('tools.markdown-to-html.inputLabel')"
     />
 
     <n-divider />
 
-    <n-form-item label="Output HTML:">
+    <n-form-item :label="$t('tools.markdown-to-html.outputLabel')">
       <TextareaCopyable :value="outputHtml" :word-wrap="true" language="html" />
     </n-form-item>
 
     <div flex justify-center>
       <n-button @click="printHtml">
-        Print as PDF
+        {{ $t('tools.markdown-to-html.printPdf') }}
       </n-button>
     </div>
   </div>

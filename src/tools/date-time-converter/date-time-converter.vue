@@ -99,6 +99,23 @@ const formats: DateFormat[] = [
 const formatIndex = ref(6);
 const now = useNow();
 
+const { t } = useI18n();
+
+const formatLabels: Record<string, string> = {
+  'JS locale date string': 'tools.date-converter.formats.jsLocale',
+  'ISO 8601': 'tools.date-converter.formats.iso8601',
+  'ISO 9075': 'tools.date-converter.formats.iso9075',
+  'RFC 3339': 'tools.date-converter.formats.rfc3339',
+  'RFC 7231': 'tools.date-converter.formats.rfc7231',
+  'Unix timestamp': 'tools.date-converter.formats.unixTimestamp',
+  'Timestamp': 'tools.date-converter.formats.timestamp',
+  'UTC format': 'tools.date-converter.formats.utcFormat',
+  'Mongo ObjectID': 'tools.date-converter.formats.mongoObjectId',
+  'Excel date/time': 'tools.date-converter.formats.excelDateTime',
+};
+
+const getFormatLabel = (name: string) => formatLabels[name] ? t(formatLabels[name]) : name;
+
 const normalizedDate = computed(() => {
   if (!inputDate.value) {
     return now.value;
@@ -121,13 +138,13 @@ function onDateInputChanged(value: string) {
   }
 }
 
-const validation = useValidation({
+const validation = useValidation<string>({
   source: inputDate,
   watch: [formatIndex],
-  rules: [
+  rules: computed(() => [
     {
-      message: 'This date is invalid for this format',
-      validator: value =>
+      message: t('tools.date-converter.invalidForFormat'),
+      validator: (value: string) =>
         withDefaultOnError(() => {
           if (value === '') {
             return true;
@@ -137,7 +154,7 @@ const validation = useValidation({
           return isDate(maybeDate) && isValid(maybeDate);
         }, false),
     },
-  ],
+  ]),
 });
 
 function formatDateUsingFormatter(formatter: (date: Date) => string, date?: Date) {
@@ -155,7 +172,7 @@ function formatDateUsingFormatter(formatter: (date: Date) => string, date?: Date
       <c-input-text
         v-model:value="inputDate"
         autofocus
-        placeholder="Put your date string here..."
+        :placeholder="t('tools.date-converter.inputPlaceholder')"
         clearable
         test-id="date-time-converter-input"
         :validation="validation"
@@ -164,8 +181,8 @@ function formatDateUsingFormatter(formatter: (date: Date) => string, date?: Date
 
       <c-select
         v-model:value="formatIndex"
-        style="flex: 0 0 170px"
-        :options="formats.map(({ name }, i) => ({ label: name, value: i }))"
+        style="flex: 0 0 200px"
+        :options="formats.map(({ name }, i) => ({ label: getFormatLabel(name), value: i }))"
         data-test-id="date-time-converter-format-select"
       />
     </div>
@@ -175,12 +192,12 @@ function formatDateUsingFormatter(formatter: (date: Date) => string, date?: Date
     <input-copyable
       v-for="{ name, fromDate } in formats"
       :key="name"
-      :label="name"
-      label-width="150px"
+      :label="getFormatLabel(name)"
+      label-width="170px"
       label-position="left"
       label-align="right"
       :value="formatDateUsingFormatter(fromDate, normalizedDate)"
-      placeholder="Invalid date..."
+      :placeholder="t('tools.date-converter.invalidDate')"
       :test-id="name"
       readonly
       mt-2

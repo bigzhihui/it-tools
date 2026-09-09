@@ -8,11 +8,13 @@ import type { Group, Scope } from './chmod-calculator.types';
 
 const themeVars = useThemeVars();
 
-const scopes: { scope: Scope; title: string }[] = [
-  { scope: 'read', title: 'Read (4)' },
-  { scope: 'write', title: 'Write (2)' },
-  { scope: 'execute', title: 'Execute (1)' },
-];
+const { t } = useI18n();
+
+const scopes = computed<{ scope: Scope; title: string }[]>(() => [
+  { scope: 'read', title: t('tools.chmod-calculator.scopes.read') },
+  { scope: 'write', title: t('tools.chmod-calculator.scopes.write') },
+  { scope: 'execute', title: t('tools.chmod-calculator.scopes.execute') },
+]);
 const groups: Group[] = ['owner', 'group', 'public'];
 
 const permissions = ref({
@@ -32,13 +34,13 @@ const symbolic = computed(() => computeChmodSymbolicRepresentation({ permissions
         <tr>
           <th class="text-center" scope="col" />
           <th class="text-center" scope="col">
-            Owner (u)
+            {{ $t('tools.chmod-calculator.groups.owner') }}
           </th>
           <th class="text-center" scope="col">
-            Group (g)
+            {{ $t('tools.chmod-calculator.groups.group') }}
           </th>
           <th class="text-center" scope="col">
-            Public (o)
+            {{ $t('tools.chmod-calculator.groups.public') }}
           </th>
         </tr>
       </thead>

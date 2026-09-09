@@ -1,35 +1,38 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import InputCopyable from '../../components/InputCopyable.vue';
 import { isNotThrowing } from '@/utils/boolean';
 import { withDefaultOnError } from '@/utils/defaults';
 
+const { t } = useI18n();
+
 const urlToParse = ref('https://me:pwd@it-tools.tech:3000/url-parser?key1=value&key2=value2#the-hash');
 
 const urlParsed = computed(() => withDefaultOnError(() => new URL(urlToParse.value), undefined));
-const urlValidationRules = [
+const urlValidationRules = computed(() => [
   {
     validator: (value: string) => isNotThrowing(() => new URL(value)),
-    message: 'Invalid url',
+    message: t('tools.url-parser.invalidUrl'),
   },
-];
+]);
 
-const properties: { title: string; key: keyof URL }[] = [
-  { title: 'Protocol', key: 'protocol' },
-  { title: 'Username', key: 'username' },
-  { title: 'Password', key: 'password' },
-  { title: 'Hostname', key: 'hostname' },
-  { title: 'Port', key: 'port' },
-  { title: 'Path', key: 'pathname' },
-  { title: 'Params', key: 'search' },
-];
+const properties = computed<{ title: string; key: keyof URL }[]>(() => [
+  { title: t('tools.url-parser.properties.protocol'), key: 'protocol' },
+  { title: t('tools.url-parser.properties.username'), key: 'username' },
+  { title: t('tools.url-parser.properties.password'), key: 'password' },
+  { title: t('tools.url-parser.properties.hostname'), key: 'hostname' },
+  { title: t('tools.url-parser.properties.port'), key: 'port' },
+  { title: t('tools.url-parser.properties.pathname'), key: 'pathname' },
+  { title: t('tools.url-parser.properties.search'), key: 'search' },
+]);
 </script>
 
 <template>
   <c-card>
     <c-input-text
       v-model:value="urlToParse"
-      label="Your url to parse:"
-      placeholder="Your url to parse..."
+      :label="t('tools.url-parser.inputLabel')"
+      :placeholder="t('tools.url-parser.inputPlaceholder')"
       raw-text
       :validation-rules="urlValidationRules"
     />
@@ -43,7 +46,7 @@ const properties: { title: string; key: keyof URL }[] = [
       :value="(urlParsed?.[key] as string) ?? ''"
       readonly
       label-position="left"
-      label-width="110px"
+      label-width="140px"
       mb-2
       placeholder=" "
     />
@@ -55,7 +58,7 @@ const properties: { title: string; key: keyof URL }[] = [
       w-full
       flex
     >
-      <div style="flex: 1 0 110px">
+      <div style="flex: 1 0 140px">
         <icon-mdi-arrow-right-bottom />
       </div>
 

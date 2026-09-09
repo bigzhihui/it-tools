@@ -101,9 +101,9 @@ update('kelvin');
 
 <template>
   <div>
-    <n-input-group v-for="[key, { title, unit }] in Object.entries(units)" :key="key" mb-3 w-full>
-      <n-input-group-label style="width: 100px">
-        {{ title }}
+    <n-input-group v-for="[key, { unit }] in Object.entries(units)" :key="key" mb-3 w-full>
+      <n-input-group-label style="width: 140px">
+        {{ $t(`tools.temperature-converter.units.${key}`) }}
       </n-input-group-label>
 
       <n-input-number

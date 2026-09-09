@@ -10,6 +10,15 @@ import { buildColorFormat } from './color-converter.models';
 
 extend([cmykPlugin, hwbPlugin, namesPlugin, lchPlugin]);
 
+const { t } = useI18n();
+
+const formatLabels = computed<Record<string, string>>(() => ({
+  picker: t('tools.color-converter.colorPicker'),
+  name: t('tools.color-converter.colorName'),
+}));
+
+const getLabel = (key: string, defaultLabel: string) => formatLabels.value[key] ?? defaultLabel;
+
 const formats = {
   picker: buildColorFormat({
     label: 'color picker',
@@ -48,7 +57,7 @@ const formats = {
   }),
   name: buildColorFormat({
     label: 'name',
-    format: (v: Colord) => v.toName({ closest: true }) ?? 'Unknown',
+    format: (v: Colord) => v.toName({ closest: true }) ?? t('tools.color-converter.unknown'),
     placeholder: 'e.g. red',
   }),
 };
@@ -79,9 +88,9 @@ function updateColorValue(value: Colord | undefined, omitLabel?: string) {
         v-if="type === 'text'"
         v-model:value="formats[key].value.value"
         :test-id="`input-${key}`"
-        :label="`${label}:`"
+        :label="`${getLabel(key, label)}:`"
         label-position="left"
-        label-width="100px"
+        label-width="120px"
         label-align="right"
         :placeholder="placeholder"
         :validation="validation"
@@ -91,7 +100,7 @@ function updateColorValue(value: Colord | undefined, omitLabel?: string) {
         @update:value="(v:string) => updateColorValue(parse(v), key)"
       />
 
-      <n-form-item v-else-if="type === 'color-picker'" :label="`${label}:`" label-width="100" label-placement="left" :show-feedback="false">
+      <n-form-item v-else-if="type === 'color-picker'" :label="`${getLabel(key, label)}:`" label-width="120" label-placement="left" :show-feedback="false">
         <n-color-picker
           v-model:value="formats[key].value.value"
           placement="bottom-end"

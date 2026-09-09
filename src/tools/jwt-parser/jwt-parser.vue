@@ -4,6 +4,8 @@ import { useValidation } from '@/composable/validation';
 import { isNotThrowing } from '@/utils/boolean';
 import { withDefaultOnError } from '@/utils/defaults';
 
+const { t, te } = useI18n();
+
 const rawJwt = ref(
   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
 );
@@ -12,25 +14,35 @@ const decodedJWT = computed(() =>
   withDefaultOnError(() => decodeJwt({ jwt: rawJwt.value }), { header: [], payload: [] }),
 );
 
-const sections = [
-  { key: 'header', title: 'Header' },
-  { key: 'payload', title: 'Payload' },
-] as const;
+const sections = computed(() => [
+  { key: 'header', title: t('tools.jwt-parser.header') },
+  { key: 'payload', title: t('tools.jwt-parser.payload') },
+] as const);
 
-const validation = useValidation({
+const validation = useValidation<string>({
   source: rawJwt,
-  rules: [
+  rules: computed(() => [
     {
-      validator: value => value.length > 0 && isNotThrowing(() => decodeJwt({ jwt: rawJwt.value })),
-      message: 'Invalid JWT',
+      validator: (value: string) => value.length > 0 && isNotThrowing(() => decodeJwt({ jwt: rawJwt.value })),
+      message: t('tools.jwt-parser.invalidJwt'),
     },
-  ],
+  ]),
 });
 </script>
 
 <template>
   <c-card>
-    <c-input-text v-model:value="rawJwt" label="JWT to decode" :validation="validation" placeholder="Put your token here..." rows="5" multiline raw-text autofocus mb-3 />
+    <c-input-text
+      v-model:value="rawJwt"
+      :label="t('tools.jwt-parser.jwtToDecode')"
+      :validation="validation"
+      :placeholder="t('tools.jwt-parser.jwtPlaceholder')"
+      rows="5"
+      multiline
+      raw-text
+      autofocus
+      mb-3
+    />
 
     <n-table v-if="validation.isValid">
       <tbody>
@@ -44,7 +56,7 @@ const validation = useValidation({
                 {{ claim }}
               </span>
               <span v-if="claimDescription" ml-2 op-70>
-                ({{ claimDescription }})
+                ({{ te(`tools.jwt-parser.claims.${claim}`) ? t(`tools.jwt-parser.claims.${claim}`) : claimDescription }})
               </span>
             </td>
             <td style="word-wrap: break-word;word-break: break-all;">

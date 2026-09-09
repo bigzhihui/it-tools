@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { useEventListener } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
 
 import InputCopyable from '../../components/InputCopyable.vue';
+
+const { t } = useI18n();
 
 const event = ref<KeyboardEvent>();
 
@@ -16,28 +19,28 @@ const fields = computed(() => {
 
   return [
     {
-      label: 'Key :',
+      label: t('tools.keycode-info.key'),
       value: event.value.key,
-      placeholder: 'Key name...',
+      placeholder: ' ',
     },
     {
-      label: 'Keycode :',
+      label: t('tools.keycode-info.keycode'),
       value: String(event.value.keyCode),
-      placeholder: 'Keycode...',
+      placeholder: ' ',
     },
     {
-      label: 'Code :',
+      label: t('tools.keycode-info.code'),
       value: event.value.code,
-      placeholder: 'Code...',
+      placeholder: ' ',
     },
     {
-      label: 'Location :',
+      label: t('tools.keycode-info.location'),
       value: String(event.value.location),
-      placeholder: 'Code...',
+      placeholder: ' ',
     },
 
     {
-      label: 'Modifiers :',
+      label: t('tools.keycode-info.modifiers'),
       value: [
         event.value.metaKey && 'Meta',
         event.value.shiftKey && 'Shift',
@@ -46,7 +49,7 @@ const fields = computed(() => {
       ]
         .filter(Boolean)
         .join(' + '),
-      placeholder: 'None',
+      placeholder: t('tools.keycode-info.none'),
     },
   ];
 });
@@ -59,12 +62,12 @@ const fields = computed(() => {
         {{ event.key }}
       </div>
       <span lh-1 op-70>
-        Press the key on your keyboard you want to get info about this key
+        {{ t('tools.keycode-info.pressKeyHint') }}
       </span>
     </c-card>
 
     <n-input-group v-for="({ label, value, placeholder }, i) of fields" :key="i" style="margin-bottom: 5px">
-      <n-input-group-label style="flex: 0 0 150px">
+      <n-input-group-label style="flex: 0 0 160px">
         {{ label }}
       </n-input-group-label>
       <InputCopyable :value="value" readonly :placeholder="placeholder" />
