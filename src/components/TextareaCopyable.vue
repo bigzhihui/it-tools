@@ -21,10 +21,13 @@ const props = withDefaults(
   {
     followHeightOf: null,
     language: 'txt',
-    copyPlacement: 'top-right',
-    copyMessage: 'Copy to clipboard',
+    copyPlacement: 'bottom-right',
+    copyMessage: undefined,
   },
 );
+
+const { t } = useI18n();
+
 hljs.registerLanguage('sql', sqlHljs);
 hljs.registerLanguage('json', jsonHljs);
 hljs.registerLanguage('html', xmlHljs);
@@ -37,7 +40,8 @@ const { value, language, followHeightOf, copyPlacement, copyMessage } = toRefs(p
 const { height } = followHeightOf.value ? useElementSize(followHeightOf) : { height: ref(null) };
 
 const { copy, isJustCopied } = useCopy({ source: value, createToast: false });
-const tooltipText = computed(() => isJustCopied.value ? 'Copied!' : copyMessage.value);
+const effectiveCopyMessage = computed(() => copyMessage.value ?? t('common.copyToClipboard'));
+const tooltipText = computed(() => isJustCopied.value ? t('common.copied') : effectiveCopyMessage.value);
 </script>
 
 <template>

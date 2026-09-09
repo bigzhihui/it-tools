@@ -12,10 +12,10 @@ const styleStore = useStyleStore();
 const theme = computed(() => (styleStore.isDarkTheme ? darkTheme : null));
 const themeOverrides = computed(() => (styleStore.isDarkTheme ? darkThemeOverrides : lightThemeOverrides));
 
-const { locale } = useI18n();
+const { availableLocales, locale } = useI18n();
 
 const savedLocale = useStorage('locale', 'zh');
-if (!savedLocale.value || savedLocale.value === 'en') {
+if (!savedLocale.value || !availableLocales.includes(savedLocale.value)) {
   savedLocale.value = 'zh';
 }
 locale.value = savedLocale.value;

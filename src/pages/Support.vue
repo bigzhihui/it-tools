@@ -1,44 +1,48 @@
 <script setup lang="ts">
+import { IconHeart } from '@tabler/icons-vue';
 import { useHead } from '@vueuse/head';
 import { NIcon } from 'naive-ui';
-import { IconHeart } from '@tabler/icons-vue';
 
-useHead({ title: '支持本站 - 十三月工具箱' });
+const { t } = useI18n();
+
+useHead(computed(() => ({
+  title: `${t('supportPage.title')} - ${t('brand.name')}`,
+})));
 </script>
 
 <template>
   <div class="mx-auto mt-40px max-w-600px px-4 pb-20 text-center">
-    <div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-red-100 dark:bg-red-900/30 text-red-500 mb-4">
+    <div class="mb-4 h-16 w-16 inline-flex items-center justify-center rounded-full bg-red-100 text-red-500 dark:bg-red-900/30">
       <NIcon size="32" :component="IconHeart" />
     </div>
 
-    <h1 class="text-2xl font-bold mb-3">
-      支持十三月工具箱
+    <h1 class="mb-3 text-2xl font-bold">
+      {{ $t('supportPage.mainTitle') }}
     </h1>
 
-    <p class="text-neutral-500 dark:text-neutral-400 text-sm leading-relaxed max-w-md mx-auto mb-8">
-      十三月工具箱永久免费且开源。如果这些在线工具在日常开发中为您节省了时间，欢迎通过以下方式支持我们持续维护与更新！
+    <p class="mx-auto mb-8 max-w-md text-sm text-neutral-500 leading-relaxed dark:text-neutral-400">
+      {{ $t('supportPage.description') }}
     </p>
 
     <!-- 赞助卡片 -->
-    <div class="p-6 rounded-2xl border border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-800 shadow-sm max-w-sm mx-auto">
-      <div class="text-base font-semibold mb-2 flex items-center justify-center">
-        ☕ 支付宝打赏
+    <div class="mx-auto max-w-sm border border-neutral-200 rounded-2xl bg-white p-6 shadow-sm dark:border-neutral-800 dark:bg-neutral-800">
+      <div class="mb-2 flex items-center justify-center text-base font-semibold">
+        {{ $t('supportPage.alipayTitle') }}
       </div>
-      <p class="text-xs text-neutral-400 mb-4">
-        请站长喝杯咖啡，支持服务器与域名运营
+      <p class="mb-4 text-xs text-neutral-400">
+        {{ $t('supportPage.alipaySubtitle') }}
       </p>
 
-      <div class="flex justify-center my-2">
+      <div class="my-2 flex justify-center">
         <img
           src="/alipay-sponsor.jpg"
-          alt="支付宝赞助码"
-          class="w-64 max-w-full rounded-xl shadow-md border border-neutral-200 dark:border-neutral-700"
-        />
+          :alt="$t('supportPage.alipayTitle')"
+          class="max-w-full w-64 border border-neutral-200 rounded-xl shadow-md dark:border-neutral-700"
+        >
       </div>
 
-      <div class="text-xs text-neutral-400 mt-3">
-        打开手机支付宝 [扫一扫] 支持 (十三月)
+      <div class="mt-3 text-xs text-neutral-400">
+        {{ $t('supportPage.alipayScan') }}
       </div>
     </div>
   </div>

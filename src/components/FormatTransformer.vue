@@ -16,16 +16,22 @@ const props = withDefaults(
   {
     transformer: _.identity,
     inputValidationRules: () => [],
-    inputLabel: 'Input',
+    inputLabel: undefined,
     inputDefault: '',
-    inputPlaceholder: 'Input...',
-    outputLabel: 'Output',
+    inputPlaceholder: undefined,
+    outputLabel: undefined,
     outputLanguage: '',
   },
 );
 
-const { transformer, inputValidationRules, inputLabel, outputLabel, outputLanguage, inputPlaceholder, inputDefault }
+const { t } = useI18n();
+
+const { transformer, inputValidationRules, outputLanguage, inputDefault }
   = toRefs(props);
+
+const computedInputLabel = computed(() => props.inputLabel ?? t('common.input'));
+const computedInputPlaceholder = computed(() => props.inputPlaceholder ?? t('common.inputPlaceholder'));
+const computedOutputLabel = computed(() => props.outputLabel ?? t('common.output'));
 
 const inputElement = ref<typeof CInputText>();
 
@@ -37,8 +43,8 @@ const output = computed(() => transformer.value(input.value));
   <CInputText
     ref="inputElement"
     v-model:value="input"
-    :placeholder="inputPlaceholder"
-    :label="inputLabel"
+    :placeholder="computedInputPlaceholder"
+    :label="computedInputLabel"
     rows="20"
     autosize
     raw-text
@@ -50,7 +56,7 @@ const output = computed(() => transformer.value(input.value));
 
   <div overflow-auto>
     <div mb-5px>
-      {{ outputLabel }}
+      {{ computedOutputLabel }}
     </div>
     <textarea-copyable :value="output" :language="outputLanguage" :follow-height-of="inputElement?.inputWrapperRef" />
   </div>

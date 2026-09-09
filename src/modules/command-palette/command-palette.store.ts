@@ -15,62 +15,65 @@ export const useCommandPaletteStore = defineStore('command-palette', () => {
   const toolStore = useToolStore();
   const styleStore = useStyleStore();
   const router = useRouter();
+  const { t } = useI18n();
   const searchPrompt = ref('');
 
-  const toolsOptions = toolStore.tools.map(tool => ({
-    ...tool,
-    to: tool.path,
-    toolCategory: tool.category,
-    category: 'Tools',
-  }));
+  const searchOptions = computed<PaletteOption[]>(() => {
+    const toolsOptions = toolStore.tools.map(tool => ({
+      ...tool,
+      to: tool.path,
+      toolCategory: tool.category,
+      category: t('commandPalette.categories.tools'),
+    }));
 
-  const searchOptions: PaletteOption[] = [
-    ...toolsOptions,
-    {
-      name: 'Random tool',
-      description: 'Get a random tool from the list.',
-      action: () => {
-        const { path } = _.sample(toolStore.tools)!;
-        router.push(path);
+    return [
+      ...toolsOptions,
+      {
+        name: t('commandPalette.commands.randomTool.name'),
+        description: t('commandPalette.commands.randomTool.description'),
+        action: () => {
+          const { path } = _.sample(toolStore.tools)!;
+          router.push(path);
+        },
+        icon: DiceIcon,
+        category: t('commandPalette.categories.tools'),
+        keywords: ['random', 'tool', 'pick', 'choose', 'select', '随机', '工具'],
+        closeOnSelect: true,
       },
-      icon: DiceIcon,
-      category: 'Tools',
-      keywords: ['random', 'tool', 'pick', 'choose', 'select'],
-      closeOnSelect: true,
-    },
-    {
-      name: 'Toggle dark mode',
-      description: 'Toggle dark mode on or off.',
-      action: () => styleStore.toggleDark(),
-      icon: SunIcon,
-      category: 'Actions',
-      keywords: ['dark', 'theme', 'toggle', 'mode', 'light', 'system'],
-    },
-    {
-      name: 'Github repository',
-      href: 'https://github.com/CorentinTh/it-tools',
-      category: 'External',
-      description: 'View the source code of it-tools on Github.',
-      keywords: ['github', 'repo', 'repository', 'source', 'code'],
-      icon: GithubIcon,
-    },
-    {
-      name: 'Report a bug or an issue',
-      description: 'Report a bug or an issue to help improve it-tools.',
-      href: 'https://github.com/CorentinTh/it-tools/issues/new/choose',
-      category: 'Actions',
-      keywords: ['report', 'issue', 'bug', 'problem', 'error'],
-      icon: BugIcon,
-    },
-    {
-      name: 'About',
-      description: 'Learn more about IT-Tools.',
-      to: '/about',
-      category: 'Pages',
-      keywords: ['about', 'learn', 'more', 'info', 'information'],
-      icon: InfoIcon,
-    },
-  ];
+      {
+        name: t('commandPalette.commands.toggleDarkMode.name'),
+        description: t('commandPalette.commands.toggleDarkMode.description'),
+        action: () => styleStore.toggleDark(),
+        icon: SunIcon,
+        category: t('commandPalette.categories.actions'),
+        keywords: ['dark', 'theme', 'toggle', 'mode', 'light', 'system', '暗色', '深色', '明亮', '模式', '主题'],
+      },
+      {
+        name: t('commandPalette.commands.githubRepo.name'),
+        href: 'https://github.com/bigzhihui/it-tools',
+        category: t('commandPalette.categories.external'),
+        description: t('commandPalette.commands.githubRepo.description'),
+        keywords: ['github', 'repo', 'repository', 'source', 'code', '仓库', '源码'],
+        icon: GithubIcon,
+      },
+      {
+        name: t('commandPalette.commands.reportBug.name'),
+        description: t('commandPalette.commands.reportBug.description'),
+        href: 'https://github.com/bigzhihui/it-tools/issues/new/choose',
+        category: t('commandPalette.categories.actions'),
+        keywords: ['report', 'issue', 'bug', 'problem', 'error', '报告', '问题', '反馈'],
+        icon: BugIcon,
+      },
+      {
+        name: t('commandPalette.commands.about.name'),
+        description: t('commandPalette.commands.about.description'),
+        to: '/about',
+        category: t('commandPalette.categories.pages'),
+        keywords: ['about', 'learn', 'more', 'info', 'information', '关于'],
+        icon: InfoIcon,
+      },
+    ];
+  });
 
   const { searchResult } = useFuzzySearch({
     search: searchPrompt,
