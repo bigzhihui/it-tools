@@ -14,6 +14,7 @@ import { defineConfig } from 'vite';
 import { VitePWA } from 'vite-plugin-pwa';
 import markdown from 'vite-plugin-vue-markdown';
 import svgLoader from 'vite-svg-loader';
+import { figletFonts } from './scripts/vite-plugin-figlet-fonts.mjs';
 import { sitemap } from './scripts/vite-plugin-sitemap.mjs';
 import { configDefaults } from 'vitest/config';
 
@@ -98,6 +99,7 @@ export default defineConfig({
       resolvers: [NaiveUiResolver(), IconsResolver({ prefix: 'icon' })],
     }),
     Unocss(),
+    figletFonts(),
     sitemap({ siteUrl: process.env.SITE_URL ?? 'https://tools.afeiii.com' }),
   ],
   base: baseUrl,
