@@ -1,0 +1,4 @@
+# Cloudflare Pages canonicalises "/foo.html" to "/foo" with a 308. Baidu's
+# verifier fetches the exact .html path, so serve that path directly (200)
+# from an extension that Pages does not rewrite.
+/baidu_verify_codeva-IcLkZzm5A0.html  /baidu-verify.txt  200
