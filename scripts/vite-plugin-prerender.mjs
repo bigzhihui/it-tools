@@ -133,9 +133,13 @@ export function prerender({ siteUrl = 'https://tools.afeiii.com' } = {}) {
           indexAsset.source = html;
         }
         else {
+          // Flat "<route>.html" rather than "<route>/index.html": Cloudflare
+          // Pages serves a directory index only after a 308 redirect to the
+          // trailing-slash URL, which would make every sitemap entry and every
+          // canonical tag point at a redirect instead of the page itself.
           this.emitFile({
             type: 'asset',
-            fileName: `${page.path.replace(/^\//, '')}/index.html`,
+            fileName: `${page.path.replace(/^\//, '')}.html`,
             source: html,
           });
         }
