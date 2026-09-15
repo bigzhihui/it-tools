@@ -1,53 +1,81 @@
-<picture>
-    <source srcset="./.github/logo-dark.png" media="(prefers-color-scheme: light)">
-    <source srcset="./.github/logo-white.png" media="(prefers-color-scheme: dark)">
-    <img src="./.github/logo-dark.png" alt="logo">
-</picture>
+<h1 align="center">十三月工具箱</h1>
 
 <p align="center">
-Useful tools for developer and people working in IT. <a href="https://it-tools.tech">Try it!</a>
+程序员实用在线工具百宝箱 —— 86 款开发者常用工具，中英双语，纯前端运算。
+<br />
+<a href="https://tools.afeiii.com"><strong>立即使用 tools.afeiii.com »</strong></a>
 </p>
 
-## Functionalities and roadmap
+## 这是什么
 
-Please check the [issues](https://github.com/CorentinTh/it-tools/issues) to see if some feature listed to be implemented.
+十三月工具箱（[tools.afeiii.com](https://tools.afeiii.com)）汇集了面向开发人员和 IT 从业者的
+86 款实用工具，涵盖加密解密、格式转换、网络计算、文本处理、开发速查等场景。
 
-You have an idea of a tool? Submit a [feature request](https://github.com/CorentinTh/it-tools/issues/new/choose)!
+所有工具均在浏览器本地运行，**数据不上传服务器**，可放心处理敏感内容。
 
-## Self host
+本项目基于开源项目 [IT-Tools](https://github.com/CorentinTh/it-tools) 进行汉化与个性化定制，
+原作者为 [Corentin Thomasset](https://corentin.tech)。向原作者与开源社区致敬。
 
-Self host solutions for your homelab
+## 工具分类
 
-**From docker hub:**
+| 分类 | 代表工具 |
+| :--- | :--- |
+| 加密与安全 | Hash 文本、Bcrypt、对称加密解密、RSA 密钥对、BIP39 助记词、密码强度分析 |
+| 转换器 | 日期时间、任意进制、颜色、罗马数字、Base64、大小写、YAML/JSON/TOML/XML 互转 |
+| Web 工具 | URL 解析与编解码、JWT 解析、HTTP 状态码、User Agent 解析、Open Graph 元标签 |
+| 网络 | IPv4 子网计算、IPv4 范围扩展、MAC 地址查询与生成、IPv6 ULA 生成 |
+| 开发辅助 | Crontab 生成、Chmod 计算、Docker Compose 转换、SQL 美化、正则测试、Git 速查 |
+| 文本处理 | 文本差异对比、字数统计、脱敏混淆、Lorem Ipsum、ASCII 艺术字、NATO 字母表 |
+| 图片与视频 | 二维码生成、WiFi 二维码、SVG 占位图、摄像头录制 |
+
+完整列表见[站点首页](https://tools.afeiii.com)。
+
+## 相比上游的改动
+
+- **全站中英双语**：86 款工具的界面文案、表单标签、占位符、提示信息完整本地化，支持实时切换。
+- **构建期预渲染**：为全部 89 个路由生成独立静态页面，带各自的标题、描述与内部链接，便于搜索引擎收录。
+- **站点地图自动生成**：构建时扫描工具定义产出 `sitemap.xml`，新增工具无需手工维护。
+- **去除第三方运行时依赖**：ASCII 艺术字的字体改由本站托管，不再依赖外部 CDN。
+- **中文技术手册**：Git 与正则备忘录提供原生中文版本。
+
+## 本地开发
+
+环境要求 Node 18。
 
 ```sh
-docker run -d --name it-tools --restart unless-stopped -p 8080:80 corentinth/it-tools:latest
+pnpm install
+pnpm dev
 ```
 
-**From github packages:**
+其他常用命令：
 
 ```sh
-docker run -d --name it-tools --restart unless-stopped -p 8080:80 ghcr.io/corentinth/it-tools:latest
+pnpm build        # 类型检查 + 生产构建
+pnpm test:unit    # 单元测试
+pnpm test:e2e     # 端到端测试
+pnpm lint         # 代码规范检查
+pnpm typecheck    # TypeScript 类型检查
 ```
 
-**Other solutions:**
+### 新增一个工具
 
-- [Cloudron](https://www.cloudron.io/store/tech.ittools.cloudron.html)
-- [Tipi](https://www.runtipi.io/docs/apps-available)
-- [Unraid](https://unraid.net/community/apps?q=it-tools)
+```sh
+pnpm run script:create:tool my-tool-name
+```
 
-## Contribute
+脚本会在 `src/tools` 下生成样板文件并注册导入，之后把它加入 `src/tools/index.ts`
+的对应分类，再补上 `locales/zh.yml` 与 `locales/en.yml` 的词条即可。
 
-### Recommended IDE Setup
+### 推荐的编辑器配置
 
-[VSCode](https://code.visualstudio.com/) with the following extensions:
+[VSCode](https://code.visualstudio.com/) 搭配以下扩展：
 
-- [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur)
-- [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+- [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)（并禁用 Vetur）
+- [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin)
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 - [i18n Ally](https://marketplace.visualstudio.com/items?itemName=lokalise.i18n-ally)
 
-with the following settings:
+对应设置：
 
 ```json
 {
@@ -60,74 +88,21 @@ with the following settings:
 }
 ```
 
-### Type Support for `.vue` Imports in TS
+## 技术栈
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+Vue 3、Vite、TypeScript、UnoCSS、Naive UI，部署于 Cloudflare Pages。
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+## 反馈与交流
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+发现 Bug 或有新工具建议，欢迎提交 [Issue](https://github.com/bigzhihui/it-tools/issues)，
+也可通过 [support@afeiii.com](mailto:support@afeiii.com) 联系。
 
-### Project Setup
+## 致谢
 
-```sh
-pnpm install
-```
+本项目基于 [Corentin Thomasset](https://corentin.tech) 创建的
+[IT-Tools](https://github.com/CorentinTh/it-tools)，感谢原作者与
+[所有贡献者](https://github.com/CorentinTh/it-tools/graphs/contributors)的工作。
 
-### Compile and Hot-Reload for Development
+## 开源协议
 
-```sh
-pnpm dev
-```
-
-### Type-Check, Compile and Minify for Production
-
-```sh
-pnpm build
-```
-
-### Run Unit Tests with [Vitest](https://vitest.dev/)
-
-```sh
-pnpm test
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-pnpm lint
-```
-
-### Create a new tool
-
-To create a new tool, there is a script that generate the boilerplate of the new tool, simply run:
-
-```sh
-pnpm run script:create:tool my-tool-name
-```
-
-It will create a directory in `src/tools` with the correct files, and a the import in `src/tools/index.ts`. You will just need to add the imported tool in the proper category and develop the tool.
-
-## Contributors
-
-Big thanks to all the people who have already contributed!
-
-[![contributors](https://contrib.rocks/image?repo=corentinth/it-tools&refresh=1)](https://github.com/corentinth/it-tools/graphs/contributors)
-
-## Credits
-
-Coded with ❤️ by [Corentin Thomasset](https://corentin.tech?utm_source=it-tools&utm_medium=readme).
-
-This project is continuously deployed using [vercel.com](https://vercel.com).
-
-Contributor graph is generated using [contrib.rocks](https://contrib.rocks/preview?repo=corentinth/it-tools).
-
-<a href="https://www.producthunt.com/posts/it-tools?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-it&#0045;tools" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=345793&theme=light" alt="IT&#0032;Tools - Collection&#0032;of&#0032;handy&#0032;online&#0032;tools&#0032;for&#0032;devs&#0044;&#0032;with&#0032;great&#0032;UX | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
-<a href="https://www.producthunt.com/posts/it-tools?utm_source=badge-top-post-badge&utm_medium=badge&utm_souce=badge-it&#0045;tools" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/top-post-badge.svg?post_id=345793&theme=light&period=daily" alt="IT&#0032;Tools - Collection&#0032;of&#0032;handy&#0032;online&#0032;tools&#0032;for&#0032;devs&#0044;&#0032;with&#0032;great&#0032;UX | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
-
-## License
-
-This project is under the [GNU GPLv3](LICENSE).
+本项目遵循 [GNU GPLv3](LICENSE) 协议，与上游项目保持一致。
