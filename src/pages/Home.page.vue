@@ -27,6 +27,14 @@ function onUpdateFavoriteTools() {
 <template>
   <div class="pt-50px">
     <div class="grid-wrapper">
+      <header class="home-header">
+        <h1 class="home-title">
+          {{ $t('brand.name') }}
+        </h1>
+        <p class="home-tagline">
+          {{ $t('home.subtitle') }}
+        </p>
+      </header>
       <div class="grid grid-cols-1 gap-12px lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2 xl:grid-cols-4">
         <ColoredCard v-if="config.showBanner" :title="$t('home.follow.title')" :icon="IconHeart">
           {{ $t('home.follow.p1') }}
@@ -90,6 +98,22 @@ function onUpdateFavoriteTools() {
 </template>
 
 <style scoped lang="less">
+.home-header {
+  margin-bottom: 20px;
+}
+
+.home-title {
+  margin: 0;
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.home-tagline {
+  margin: 4px 0 0;
+  font-size: 14px;
+  color: rgba(128, 128, 128, 0.9);
+}
 .height-enter-active,
 .height-leave-active {
   transition: all 0.5s ease-in-out;

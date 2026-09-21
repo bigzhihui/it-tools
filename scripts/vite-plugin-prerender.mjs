@@ -92,11 +92,21 @@ export function prerender({ siteUrl = 'https://tools.afeiii.com' } = {}) {
 
       let emitted = 0;
 
+      // index.html already carries a full-length site description written for
+      // search results. The home page keeps it; overwriting it with the short
+      // tagline left the most important page with a 12-character description.
+      const templateDescription = (
+        template.match(/<meta\s+name="description"\s+content="([\s\S]*?)"/) ?? []
+      )[1];
+
       for (const page of pages) {
         const fullTitle = page.isHome
           ? `${brand} - ${page.description}`
           : `${page.title} - ${brand}`;
         const canonical = `${origin}${page.path}`;
+        const metaDescription = page.isHome && templateDescription
+          ? templateDescription
+          : escapeHtml(page.description);
 
         const body = [
           `<h1>${escapeHtml(page.isHome ? brand : page.title)}</h1>`,
@@ -108,7 +118,7 @@ export function prerender({ siteUrl = 'https://tools.afeiii.com' } = {}) {
           .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(fullTitle)}</title>`)
           .replace(
             /(<meta\s+name="description"\s+content=")[\s\S]*?(")/,
-            `$1${escapeHtml(page.description)}$2`,
+            `$1${metaDescription}$2`,
           )
           .replace(
             /(<link\s+rel="canonical"\s+href=")[^"]*(")/,
@@ -120,7 +130,7 @@ export function prerender({ siteUrl = 'https://tools.afeiii.com' } = {}) {
           )
           .replace(
             /(<meta\s+property="og:description"\s+content=")[\s\S]*?(")/,
-            `$1${escapeHtml(page.description)}$2`,
+            `$1${metaDescription}$2`,
           )
           .replace(
             /(<meta\s+property="og:url"\s+content=")[^"]*(")/,
