@@ -141,6 +141,15 @@ tools:
     button:
       copy: Copy
       refresh: Refresh
+    guide:
+      intro: "Quickly generates a random string of any length for use as a password, API key, invite code or test data, combining uppercase letters, lowercase letters, digits and symbols however you like."
+      usage: "Tick the character types you want and drag the slider to set the length, and a token appears instantly. Click refresh for a new one, then copy it with a single click."
+      q1: "Are the generated tokens secure?"
+      a1: "Each character is drawn from the browser cryptographically secure random number generator, and everything happens locally without touching a server. For passwords, use at least 16 characters and mix character types."
+      q2: "How long should a token be?"
+      a2: "With upper and lower case letters plus digits, each character adds about 6 bits of randomness, so 16 characters give roughly 95 bits, enough to resist brute force. API keys usually use 32 characters or more."
+      q3: "Why do some systems reject tokens with symbols?"
+      a3: "Some systems restrict special characters, and others need them escaped in URLs or on the command line. In that case, untick symbols and increase the length a little to keep the same strength."
   percentage-calculator:
     title: Percentage calculator
     description: Easily calculate percentages from a value to another value, or from a percentage to a value.
@@ -226,6 +235,15 @@ tools:
     colorPicker: Color picker
     colorName: Color name
     unknown: Unknown
+    guide:
+      intro: "Converts between HEX, RGB, HSL, HWB, LCH, LAB, CMYK and CSS colour names. Change any one format and the rest update to match, which suits front-end work and picking colours from designs."
+      usage: "Pick a colour with the colour picker, or type a value into any format field, and every other format is calculated immediately."
+      q1: "What is the difference between HSL and RGB?"
+      a1: "RGB describes a colour with red, green and blue components, close to how screens display it. HSL uses hue, saturation and lightness, which matches how people think about colour and makes adjusting brightness or vividness easier."
+      q2: "Can I use the CMYK values for printing?"
+      a2: "Only as a guide. Screens and printers cover different colour ranges, and accurate print colours depend on the specific colour profile and printing device."
+      q3: "Why does a colour name come up as unknown?"
+      a3: "Only standard CSS colour names are supported, such as red, olive or steelblue. Names in other languages or custom swatch names from design software are not recognised."
   bcrypt:
     title: Bcrypt
     description: Hash and compare text string using bcrypt. Bcrypt is a password-hashing function based on the Blowfish cipher.
@@ -244,6 +262,15 @@ tools:
     doTheyMatch: Do they match ?
     yes: Yes
     no: No
+    guide:
+      intro: "Bcrypt is a hashing algorithm designed for storing passwords. It includes a random salt and a cost factor that controls how slow it is, raising the price of brute-force attacks. This tool creates Bcrypt hashes and checks whether a password matches a hash."
+      usage: "Enter text and choose the number of rounds in the hash panel to create a hash. In the compare panel, enter a password and an existing hash to see whether they match."
+      q1: "Why does the same password give a different hash each time?"
+      a1: "A new random salt is generated every time and stored inside the hash. Verification reads the salt back out of the hash before computing, so every one of those hashes still matches the same password."
+      q2: "How many rounds should I use?"
+      a2: "Each additional round roughly doubles the computation time. A value of 10 to 12 is generally recommended as a balance between security and login response time."
+      q3: "Does Bcrypt limit password length?"
+      a3: "Yes. Bcrypt only uses the first 72 bytes of a password and ignores the rest. Note that a Chinese character takes 3 bytes in UTF-8."
   crontab-generator:
     title: Crontab generator
     description: Validate and generate crontab and get the human-readable description of the cron schedule.
@@ -272,6 +299,15 @@ tools:
       sameAsDaily: Same as {'@'}daily
       hourly: Once an hour at the beginning of the hour
       reboot: Run at startup
+    guide:
+      intro: "A cron expression uses five fields to describe when a scheduled job runs, and one wrong field can make it fire at the wrong time. This tool validates the expression as you type and translates it into a plain description."
+      usage: "Type a cron expression and its meaning appears straight away, such as what time each day it runs or how often it repeats. A reference of symbols for each field is included on the page."
+      q1: "What do the five fields mean?"
+      a1: "From left to right: minute, hour, day of month, month and day of week. For example, 30 2 * * 1 runs at 2:30 in the morning every Monday."
+      q2: "Is Sunday 0 or 7?"
+      a2: "Most implementations accept both 0 and 7 for Sunday. This tool counts from 0 by default, which you can change in the options."
+      q3: "The expression is correct, so why does the job not run on time?"
+      a3: "Common causes are a server time zone that differs from what you expect, or environment variables that differ between cron and your interactive shell. Check the server time zone first, then the job logs."
   http-status-codes:
     title: HTTP status codes
     description: The list of all HTTP status with their name and meaning explained.
@@ -485,6 +521,15 @@ tools:
     copyDecodedString: Copy decoded string
     copiedDecodedString: String copied to the clipboard
     invalidBase64: Invalid base64 string
+    guide:
+      intro: "Base64 represents arbitrary data using printable characters and is common in email attachments, data URLs and API payloads. This tool encodes and decodes in both directions, entirely in your browser."
+      usage: "Type text in the encode panel to get its Base64 form, or paste a Base64 string in the decode panel to recover the original. If the result will go into a URL or a file name, enable URL-safe mode, which swaps plus and slash for hyphen and underscore and drops the trailing equals signs."
+      q1: "Will non-English text come out garbled?"
+      a1: "No. Text is handled as UTF-8, so Chinese characters and emoji encode and decode correctly, matching the default behaviour of mainstream programming languages."
+      q2: "Can Base64 be used for encryption?"
+      a2: "No. Base64 is only an encoding and anyone can decode it, so it provides no confidentiality. Use an encryption tool when data needs to be protected."
+      q3: "Why is the encoded output longer?"
+      a3: "Base64 uses 4 characters for every 3 bytes, so the output is about four thirds the size of the input, sometimes with equals signs added at the end as padding."
   toml-to-yaml:
     title: TOML to YAML
     description: Parse and convert TOML to YAML.
@@ -583,6 +628,15 @@ tools:
       sentencecase: "Sentencecase:"
       snakecase: "Snakecase:"
       mockingcase: "Mockingcase:"
+    guide:
+      intro: "Different parts of a codebase call for different naming styles, such as camelCase for variables, PascalCase for classes and CONSTANT_CASE for constants. Type once here and get 14 naming formats at the same time."
+      usage: "Enter any string or an existing identifier and every format is generated together, ready to copy. Word boundaries are detected automatically, so userName, user_name and user-name all split correctly."
+      q1: "Where is each format used?"
+      a1: "camelCase is common for JavaScript variables and functions, PascalCase for classes and components, snake_case for Python and database columns, CONSTANT_CASE for constants and environment variables, and kebab-case for URLs and CSS class names."
+      q2: "What happens to non-Latin characters and digits?"
+      a2: "Formats such as camelCase and snake_case keep only Latin letters, so non-Latin characters and digits are treated as separators and removed. Lowercase, uppercase and mocking case keep the original text intact."
+      q3: "What is mocking case?"
+      a3: "Letters alternate between upper and lower case one character at a time, so hello world becomes HeLlO WoRlD. It is mostly used online to convey a teasing tone and rarely needed in code."
   html-entities:
     title: Escape HTML entities
     description: Escape or unescape HTML entities (replace characters like <,>, &, " and \' with their HTML version)
@@ -597,6 +651,15 @@ tools:
     yourStringUnescaped: "Your string unescaped :"
     stringUnescapedPlaceholder: Your string unescaped
     copied: Copied to clipboard!
+    guide:
+      intro: "To show less-than, greater-than, ampersand or quote characters on a web page, they must first be escaped as HTML entities, otherwise the browser may treat them as markup and open the door to cross-site scripting. This tool escapes and unescapes in both directions."
+      usage: "Type plain text in the escape panel to get the entity-encoded result. Paste text containing entities such as &lt; in the unescape panel to get the original characters back."
+      q1: "Which characters are escaped?"
+      a1: "Five characters with special meaning in HTML: less-than, greater-than, ampersand, double quote and single quote."
+      q2: "Does escaping prevent XSS?"
+      a2: "Escaping these five characters is the basic defence when inserting user input into HTML body content. Inside JavaScript code, URLs or styles, you need the escaping rules for that context, and HTML escaping alone is not enough."
+      q3: "Does non-English text need escaping?"
+      a3: "No. As long as the page declares UTF-8, such text displays directly. Escaping only applies to characters with special meaning."
   json-prettify:
     title: JSON prettify and format
     description: Prettify your JSON string into a friendly, human-readable format.
@@ -606,6 +669,15 @@ tools:
     rawJsonPlaceholder: Paste your raw JSON here...
     prettifiedJson: Prettified version of your JSON
     invalidJson: Provided JSON is not valid.
+    guide:
+      intro: "Turns minified or badly indented JSON into a clean, readable layout, which is handy for inspecting API responses and debugging config files. Everything runs locally in your browser and nothing is uploaded."
+      usage: "Paste raw JSON and the formatted result appears instantly. You can change the indent size and toggle key sorting, which orders object fields alphabetically and makes two JSON documents easier to compare."
+      q1: "Can it parse JSON with comments or trailing commas?"
+      a1: "Yes. Input is parsed with JSON5, so comments, trailing commas, single-quoted strings and unquoted keys are accepted. The output is always standard JSON."
+      q2: "What should I do when it says the JSON is invalid?"
+      a2: "The usual causes are unbalanced brackets or quotes, a missing colon between a key and its value, or stray characters picked up while copying. Removing sections one at a time quickly narrows down the problem."
+      q3: "Does sorting keys change my data?"
+      a3: "No. It only changes the order in which object fields are shown, including nested objects. The order of items inside arrays is left untouched."
   docker-run-to-docker-compose-converter:
     title: Docker run to Docker compose converter
     description: Transforms "docker run" commands into docker-compose files!
@@ -670,6 +742,15 @@ tools:
       medium: Medium (15%)
       quartile: Quartile (25%)
       high: High (30%)
+    guide:
+      intro: "Creates a QR code image from a URL, text or contact details, with custom foreground and background colours and an adjustable error correction level. Everything happens locally in your browser and your input is never uploaded."
+      usage: "Type a link or some text and the QR code updates live. Adjust the colours and error correction, then click download to save it as a PNG image."
+      q1: "Which error correction level should I choose?"
+      a1: "Higher levels make the code readable even when part of it is covered or damaged, at the cost of a denser pattern. For printed posters, or when placing a logo in the middle, choose high or the highest level."
+      q2: "How much content can a QR code hold?"
+      a2: "At the lowest error correction level, about 7,000 digits or roughly 2,900 bytes of data, and a Chinese character takes 3 bytes in UTF-8. More content makes the pattern more complex, so keep it to a few hundred characters for reliable scanning."
+      q3: "Can I use any colours?"
+      a3: "Keep a dark foreground on a light background with enough contrast. When the foreground is lighter than the background or the contrast is low, many scanner apps fail to read the code."
   wifi-qrcode-generator:
     title: WiFi QR Code generator
     description: Generate and download QR codes for quick connections to WiFi networks.
@@ -784,6 +865,15 @@ tools:
       jti: JWT ID
       name: Full name
       email: Email
+    guide:
+      intro: "A JWT is a common credential format made of a header, a payload and a signature. This tool decodes a JWT into readable content and explains standard fields such as the issuer and expiry. Decoding happens locally and the token is never uploaded."
+      usage: "Paste a complete JWT and the header and payload are shown as separate tables, with the expiry, not-before and issued-at times converted to readable dates."
+      q1: "Does this tool verify the signature?"
+      a1: "No. It only decodes and does not check the signature, so it cannot tell whether a token has been tampered with. A server must verify the signature with its key before trusting a JWT."
+      q2: "Is the JWT payload encrypted?"
+      a2: "No. The payload is only Base64URL encoded, so anyone holding the token can read it. Never put passwords or other secrets in a JWT."
+      q3: "Is it safe to paste a production token here?"
+      a3: "Decoding happens entirely in your browser and the token is not sent anywhere. A valid token is still a login credential, though, so avoid pasting or sharing it in places you do not trust."
   date-converter:
     title: Date-time converter
     description: Convert date and time into the various different formats
@@ -801,6 +891,15 @@ tools:
       utcFormat: UTC format
       mongoObjectId: Mongo ObjectID
       excelDateTime: Excel date/time
+    guide:
+      intro: "Developers constantly convert between timestamps and date formats. Enter one time here and get ISO 8601, RFC 3339, RFC 7231, Unix seconds and milliseconds, UTC, a MongoDB ObjectId and an Excel date all at once."
+      usage: "Type a date string or a timestamp and the tool detects the format and fills in every result. You can also pick the input format yourself to avoid an ambiguous guess."
+      q1: "How do I tell a seconds timestamp from a milliseconds one?"
+      a1: "Count the digits. For the current time, a seconds timestamp has 10 digits and a milliseconds one has 13. JavaScript Date.now returns milliseconds, while many backend languages and databases use seconds."
+      q2: "Which time zone are the results in?"
+      a2: "The localized value uses your system time zone, and the ISO 8601 result includes your zone offset, such as +08:00. The UTC row shows Coordinated Universal Time. A timestamp itself has no time zone."
+      q3: "How does a MongoDB ObjectId relate to time?"
+      a3: "Its first 4 bytes are the creation time as a seconds timestamp, so you can recover when an ObjectId was made, or build an ObjectId prefix from a given time."
   phone-parser-and-formatter:
     title: Phone parser and formatter
     description: Parse, validate and format phone numbers. Get information about the phone number, like the country code, type, etc.
@@ -841,6 +940,15 @@ tools:
       unknownClassFallback: Unknown class type
     previousBlock: Previous block
     nextBlock: Next block
+    guide:
+      intro: "Planning a network or writing firewall rules often means working out the usable range of a subnet. Enter an IP address and mask to get the network address, broadcast address, subnet mask, wildcard mask and number of usable hosts."
+      usage: "Enter an address with a mask, such as 192.168.1.10/24, and the results appear immediately. An address without a mask is treated as a single host, which is /32. You can also jump to the previous or next adjacent subnet."
+      q1: "How many addresses does /24 contain?"
+      a1: "A /24 uses the first 24 bits for the network and the remaining 8 for hosts, giving 256 addresses. After the network and broadcast addresses, 254 can be assigned to hosts."
+      q2: "What is a wildcard mask for?"
+      a2: "A wildcard mask is the subnet mask with every bit inverted, used in Cisco access control lists and OSPF configuration. For example, the subnet mask 255.255.255.0 corresponds to the wildcard mask 0.0.0.255."
+      q3: "Why is there no broadcast address?"
+      a3: "With a /31 or /32 mask the subnet holds only two addresses or one, so no broadcast address is reserved. A /31 is common on point-to-point links."
   og-meta-generator:
     title: Open graph meta generator
     description: Generate open-graph and socials HTML meta tags for your website.
@@ -981,6 +1089,15 @@ tools:
       hex: Hexadecimal (base 16)
       base64: Base64 (base 64)
       base64url: Base64url (base 64 with url safe chars)
+    guide:
+      intro: "A hash function turns text of any length into a fixed-length digest, often used to verify file integrity or check whether two pieces of data match. This tool supports MD5, SHA1, SHA256, SHA224, SHA512, SHA384, SHA3 and RIPEMD160, all computed locally in your browser."
+      usage: "Type some text and the results for every algorithm appear together. You can switch the digest output between hexadecimal, binary, Base64 and URL-safe Base64."
+      q1: "Do hashes of non-English text match other tools?"
+      a1: "Yes. Text is encoded as UTF-8 before hashing, the same default used by the Linux command line and mainstream programming languages."
+      q2: "Why does the SHA3 result differ from other tools?"
+      a2: "The SHA3 option here actually computes Keccak-512, the version that preceded the final SHA3 standard, so it does not match SHA3-512 as defined in FIPS 202. Keep this in mind when comparing against sha3-512 from OpenSSL and similar tools."
+      q3: "Are MD5 and SHA1 still usable?"
+      a3: "They are still fine for detecting accidental file corruption, but practical collision attacks exist, so they should not be used for digital signatures or password storage. For passwords use a dedicated algorithm such as Bcrypt."
   json-to-toml:
     title: JSON to TOML
     description: Parse and convert JSON to TOML.
@@ -1056,6 +1173,15 @@ tools:
   base-converter:
     title: Integer base converter
     description: Convert a number between different bases (decimal, hexadecimal, binary, octal, base64, ...)
+    guide:
+      intro: "Converts integers between binary, octal, decimal and hexadecimal, and supports any base from 2 to 64. It is handy for checking bitwise results, permission codes or colour values."
+      usage: "Enter a number and its current base, and the value in every base appears together. For another base, set the target in the custom field. Integers of any size are supported."
+      q1: "Why is uppercase hexadecimal rejected?"
+      a1: "Digits are case-sensitive here. For bases up to 36, use lowercase letters, so enter ff rather than FF. Uppercase letters are only used by higher bases."
+      q2: "Are negative numbers and decimals supported?"
+      a2: "No. Only non-negative integers are handled, and a minus sign or decimal point is reported as an invalid character."
+      q3: "Is base 64 the same as Base64 encoding?"
+      a3: "No. Base 64 here is a positional conversion of an integer, while Base64 encoding turns arbitrary bytes into text. They use a different character order and serve different purposes."
   yaml-to-json-converter:
     title: YAML to JSON converter
     description: Simply convert YAML to JSON with this online live converter.
@@ -1063,6 +1189,15 @@ tools:
     inputPlaceholder: Paste your YAML here...
     outputLabel: JSON from your YAML
     invalidYaml: Provided YAML is not valid.
+    guide:
+      intro: "YAML is popular for configuration files, while JSON is the common format for exchanging data between services. This tool converts YAML into formatted JSON as you type, which helps when checking a config structure or migrating data."
+      usage: "Paste YAML into the input and the converted JSON appears immediately. Syntax errors in the YAML are reported."
+      q1: "Are anchors and merge keys supported?"
+      a1: "Yes. Anchors, aliases and merge keys are all expanded, so the result is complete JSON data."
+      q2: "What happens with bad indentation?"
+      a2: "YAML uses indentation to express nesting, so inconsistent indents or mixed tabs cause parse errors or a wrong structure. Indent with spaces consistently."
+      q3: "Are comments kept?"
+      a3: "No. JSON has no comments, so any comments in the YAML are dropped during conversion."
   uuid-generator:
     title: UUIDs generator
     description: A Universally Unique Identifier (UUID) is a 128-bit number used to identify information in computer systems. The number of possible UUIDs is 16^32, which is 2^128 or about 3.4x10^38 (which is a lot!).
@@ -1076,6 +1211,15 @@ tools:
     uuidsPlaceholder: Your uuids
     copied: UUIDs copied to the clipboard
     invalid: Invalid UUID
+    guide:
+      intro: "A UUID is a 128-bit unique identifier, commonly used for database keys, request tracing IDs and file names. This tool supports the NIL, v1, v3, v4 and v5 versions and can generate many at once."
+      usage: "Pick a version and a quantity, and the results appear immediately, ready to copy. Versions v3 and v5 also need a namespace and a name, and the same inputs always produce the same UUID."
+      q1: "Which version should I use?"
+      a1: "v4 suits most cases because it is random. Use v5 when the same name must always map to the same UUID. v1 embeds its creation time, so the rough moment it was generated can be recovered from it, which also means that information is exposed."
+      q2: "Can v4 UUIDs collide?"
+      a2: "In theory, yes, but the odds are tiny. A v4 UUID has 122 random bits, so even at one billion per second it would take about 86 years to reach a fifty percent chance of a single collision."
+      q3: "What is the NIL UUID?"
+      a3: "A special UUID made entirely of zeros. It usually stands for an empty or unset value and is not unique by design."
   ipv4-address-converter:
     title: IPv4 address converter
     description: Convert an IP address into decimal, binary, hexadecimal, or even an IPv6 representation of it.
@@ -1153,6 +1297,15 @@ tools:
     description: Compare two texts and see the differences between them.
     originalTextPlaceholder: original text
     modifiedTextPlaceholder: modified text
+    guide:
+      intro: "Compares two pieces of text and highlights additions, deletions and changes in different colours. It is well suited to reviewing code changes, config edits or two versions of a document."
+      usage: "Paste the original text on the left and the modified text on the right, and the differences are highlighted line by line. Both sides are editable and the result updates live."
+      q1: "Is my text uploaded?"
+      a1: "No. The comparison runs entirely in your browser, which makes it safe for code or config containing sensitive information."
+      q2: "How large can the texts be?"
+      a2: "Typical source files and documents compare smoothly. At tens of thousands of lines rendering slows down noticeably, so compare in sections."
+      q3: "Is the comparison by line or by character?"
+      a3: "It first finds the lines that changed, then marks the exact characters that differ within those lines, making small edits easy to spot."
   otp-generator:
     title: OTP code generator
     description: Generate and validate time-based OTP (one-time password) for multi-factor authentication.
@@ -1194,6 +1347,15 @@ tools:
     stringDecodedPlaceholder: Your string decoded
     copiedDecoded: Decoded string copied to the clipboard
     parseError: Impossible to parse this string
+    guide:
+      intro: "Only some characters can appear in a URL as is. Non-ASCII text, spaces and many symbols must be percent-encoded to travel safely. This tool converts between plain strings and URL encoding in both directions."
+      usage: "Type a plain string in the encode panel to get its percent-encoded form. Paste an encoded string such as %E4%BD%A0 in the decode panel to turn it back into readable text."
+      q1: "Why is a space encoded as %20 rather than a plus sign?"
+      a1: "The tool follows encodeURIComponent, which always encodes a space as %20. Using a plus sign for a space comes from HTML form submissions, and most servers understand both."
+      q2: "Which characters are left unencoded?"
+      a2: "Letters, digits and the symbols - _ . ! ~ * ' ( ) stay as they are. Everything else is encoded, including slash, question mark and equals sign, which makes it the right choice for a single query parameter value."
+      q3: "Why does decoding fail?"
+      a3: "Usually a percent sign is followed by something that is not valid hexadecimal, or a multi-byte character was cut off part way. Check that the encoded string is complete."
   text-to-binary:
     title: Text to ASCII binary
     description: Convert text to its ASCII binary representation and vice-versa.
@@ -1260,6 +1422,15 @@ tools:
       groups: Groups
     noMatch: No match
     invalidRegex: "Invalid regex: {0}"
+    guide:
+      intro: "Seeing matches while you write a regular expression cuts trial and error dramatically. This tool shows match positions, capture groups and named groups live, and can draw a syntax diagram and generate random matching samples."
+      usage: "Enter a regular expression and the text to test, and the matches are listed as you type. Toggles enable global, case-insensitive, multiline, dotall and Unicode modes."
+      q1: "Which regex flavour is tested here?"
+      a1: "The JavaScript regex engine, behaving exactly as in browsers and Node.js. Other languages are broadly similar but can differ in details such as named group syntax and lookbehind support."
+      q2: "Why is only the first match found?"
+      a2: "Enable the global flag, g. Without it, a regular expression returns only the first match."
+      q3: "What is the difference between multiline and dotall mode?"
+      a3: "Multiline makes the start and end anchors match at every line break, while dotall lets the dot match newline characters too. They do different things and can be enabled together."
   regex-memo:
     title: Regex cheatsheet
     description: Javascript Regex/Regular Expression cheatsheet
@@ -1303,6 +1474,15 @@ tools:
     inputPlaceholder: Your Markdown content...
     outputLabel: "Output HTML:"
     printPdf: Print as PDF
+    guide:
+      intro: "Converts Markdown into HTML you can paste into a web page, an email or a content management system, and lets you print the rendered result or save it as PDF."
+      usage: "Write or paste Markdown and the matching HTML is generated live. Click print to save it as a PDF through your browser print dialog."
+      q1: "Which Markdown syntax is supported?"
+      a1: "Parsing is done by markdown-it, covering CommonMark syntax such as headings, lists, quotes, code blocks, links and images, plus tables and strikethrough."
+      q2: "Does the generated HTML include styling?"
+      a2: "No. The output is plain HTML structure, and how it looks depends on the stylesheet wherever you place it."
+      q3: "Where do I set paper size and margins for the PDF?"
+      a3: "The export uses your browser built-in print dialog, where paper size, margins, headers and footers are all adjusted."
   ascii-text-drawer:
     title: ASCII text drawer
     description: Create ASCII art text easily with various FIGlet fonts and widths.
@@ -1339,6 +1519,10 @@ localeHint:
   message: This site is also available in English.
   switch: Switch to English
   dismiss: Dismiss
+toolGuide:
+  about: About this tool
+  usage: How to use
+  faq: FAQ
 commandPalette:
   searchPlaceholder: Type to search a tool or a command...
   categories:

@@ -13,6 +13,31 @@ function escapeHtml(value) {
     .replace(/"/g, '&quot;');
 }
 
+// Mirrors ToolGuide.vue so crawlers that skip JavaScript read the same text.
+function renderGuide(guide, titles) {
+  if (!guide?.intro) {
+    return '';
+  }
+
+  const faq = [];
+  for (let i = 1; i <= 5; i++) {
+    const question = guide[`q${i}`];
+    const answer = guide[`a${i}`];
+
+    if (question && answer) {
+      faq.push(`<dt>${escapeHtml(question)}</dt><dd>${escapeHtml(answer)}</dd>`);
+    }
+  }
+
+  return [
+    '<section>',
+    `<h2>${escapeHtml(titles.about ?? '')}</h2><p>${escapeHtml(guide.intro)}</p>`,
+    guide.usage ? `<h2>${escapeHtml(titles.usage ?? '')}</h2><p>${escapeHtml(guide.usage)}</p>` : '',
+    faq.length ? `<h2>${escapeHtml(titles.faq ?? '')}</h2><dl>${faq.join('')}</dl>` : '',
+    '</section>',
+  ].join('');
+}
+
 function collectRoutes() {
   const locale = parseYaml(readFileSync(LOCALE_FILE, 'utf8'));
   const brand = locale?.brand?.name ?? '';
@@ -40,7 +65,12 @@ function collectRoutes() {
         return null;
       }
 
-      return { path, title: entryLocale.title, description: entryLocale.description };
+      return {
+        path,
+        title: entryLocale.title,
+        description: entryLocale.description,
+        guide: entryLocale.guide,
+      };
     })
     .filter(Boolean)
     .sort((a, b) => a.path.localeCompare(b.path, 'en'));
@@ -52,7 +82,7 @@ function collectRoutes() {
     ...tools,
   ];
 
-  return { brand, tools, pages };
+  return { brand, tools, pages, guideTitles: locale?.toolGuide ?? {} };
 }
 
 /**
@@ -84,7 +114,7 @@ export function prerender({ siteUrl = 'https://tools.afeiii.com' } = {}) {
       }
 
       const template = String(indexAsset.source);
-      const { brand, tools, pages } = collectRoutes();
+      const { brand, tools, pages, guideTitles } = collectRoutes();
 
       const navLinks = tools
         .map(t => `<li><a href="${t.path}">${escapeHtml(t.title)}</a></li>`)
@@ -111,6 +141,7 @@ export function prerender({ siteUrl = 'https://tools.afeiii.com' } = {}) {
         const body = [
           `<h1>${escapeHtml(page.isHome ? brand : page.title)}</h1>`,
           `<p>${escapeHtml(page.description)}</p>`,
+          renderGuide(page.guide, guideTitles),
           `<nav aria-label="${escapeHtml(brand)}"><ul>${navLinks}</ul></nav>`,
         ].join('');
 

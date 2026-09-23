@@ -55,6 +55,8 @@ useHead(head);
     <div class="tool-content">
       <slot />
     </div>
+
+    <ToolGuide :tool-key="i18nKey" />
   </BaseLayout>
 </template>
 
