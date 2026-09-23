@@ -2,6 +2,7 @@ import { tool as base64FileConverter } from './base64-file-converter';
 import { tool as base64StringConverter } from './base64-string-converter';
 import { tool as basicAuthGenerator } from './basic-auth-generator';
 import { tool as emailNormalizer } from './email-normalizer';
+import { tool as imageToPdf } from './image-to-pdf';
 import { tool as pdfExtractPages } from './pdf-extract-pages';
 import { tool as pdfMerge } from './pdf-merge';
 import { tool as pdfRotate } from './pdf-rotate';
@@ -148,7 +149,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'PDF',
-    components: [pdfMerge, pdfExtractPages, pdfRotate],
+    components: [pdfMerge, pdfExtractPages, pdfRotate, imageToPdf],
   },
   {
     name: 'Development',
