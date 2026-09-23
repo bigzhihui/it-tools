@@ -34,6 +34,7 @@ syncRef(
         <component :is="layout">
           <RouterView />
         </component>
+        <LocaleHint />
       </NNotificationProvider>
     </NMessageProvider>
   </n-config-provider>

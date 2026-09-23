@@ -1335,6 +1335,10 @@ tools:
     downloadQrCode: Download qr-code
 localeSelector:
   placeholder: Select a language
+localeHint:
+  message: This site is also available in English.
+  switch: Switch to English
+  dismiss: Dismiss
 commandPalette:
   searchPlaceholder: Type to search a tool or a command...
   categories:

@@ -1335,6 +1335,10 @@ tools:
     downloadQrCode: 下载二维码图片
 localeSelector:
   placeholder: 选择语言
+localeHint:
+  message: 本站也提供英文版。
+  switch: 切换到英文
+  dismiss: 关闭
 commandPalette:
   searchPlaceholder: 输入以搜索工具或快捷命令...
   categories:
