@@ -145,26 +145,32 @@ export function prerender({ siteUrl = 'https://tools.afeiii.com' } = {}) {
           `<nav aria-label="${escapeHtml(brand)}"><ul>${navLinks}</ul></nav>`,
         ].join('');
 
-        const html = template
-          .replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(fullTitle)}</title>`)
-          .replace(
-            /(<meta\s+name="description"\s+content=")[\s\S]*?(")/,
-            `$1${metaDescription}$2`,
+        // Every tag in the template that carries the site's title or
+        // description, since social cards and some crawlers read one set and
+        // not the other. The image alt text stays: it describes the banner.
+        const metaTags = [
+          ['name', 'description', metaDescription],
+          ['itemprop', 'name', escapeHtml(fullTitle)],
+          ['itemprop', 'description', metaDescription],
+          ['property', 'og:title', escapeHtml(fullTitle)],
+          ['property', 'og:description', metaDescription],
+          ['property', 'og:url', canonical],
+          ['name', 'twitter:title', escapeHtml(fullTitle)],
+          ['name', 'twitter:description', metaDescription],
+        ];
+
+        const html = metaTags
+          .reduce(
+            // A function rather than a replacement string, so that a `$` in the
+            // text is not read as a pattern.
+            (result, [attribute, key, value]) => result.replace(
+              new RegExp(`(<meta\\s+${attribute}="${key}"\\s+content=")[^"]*(")`),
+              (_, before, after) => `${before}${value}${after}`,
+            ),
+            template.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(fullTitle)}</title>`),
           )
           .replace(
             /(<link\s+rel="canonical"\s+href=")[^"]*(")/,
-            `$1${canonical}$2`,
-          )
-          .replace(
-            /(<meta\s+property="og:title"\s+content=")[\s\S]*?(")/,
-            `$1${escapeHtml(fullTitle)}$2`,
-          )
-          .replace(
-            /(<meta\s+property="og:description"\s+content=")[\s\S]*?(")/,
-            `$1${metaDescription}$2`,
-          )
-          .replace(
-            /(<meta\s+property="og:url"\s+content=")[^"]*(")/,
             `$1${canonical}$2`,
           )
           .replace('<div id="app"></div>', `<div id="app">${body}</div>`);
