@@ -86,6 +86,7 @@
     "oui-data": "^1.0.10",
     "pdf-lib": "^1.17.1",
     "pdf-signature-reader": "^1.4.2",
+    "pdfjs-dist": "4.10.38",
     "pinia": "^2.0.34",
     "plausible-tracker": "^0.3.8",
     "qrcode": "^1.5.1",
@@ -154,6 +155,9 @@
   "pnpm": {
     "overrides": {
       "@unhead/vue>@vueuse/shared": "12.0.0"
-    }
+    },
+    "ignoredOptionalDependencies": [
+      "@napi-rs/canvas"
+    ]
   }
 }
