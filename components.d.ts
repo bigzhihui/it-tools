@@ -182,6 +182,7 @@ declare module '@vue/runtime-core' {
     NumeronymGenerator: typeof import('./src/tools/numeronym-generator/numeronym-generator.vue')['default']
     OtpCodeGeneratorAndValidator: typeof import('./src/tools/otp-code-generator-and-validator/otp-code-generator-and-validator.vue')['default']
     PasswordStrengthAnalyser: typeof import('./src/tools/password-strength-analyser/password-strength-analyser.vue')['default']
+    PdfExtractPages: typeof import('./src/tools/pdf-extract-pages/pdf-extract-pages.vue')['default']
     PdfMerge: typeof import('./src/tools/pdf-merge/pdf-merge.vue')['default']
     PdfSignatureChecker: typeof import('./src/tools/pdf-signature-checker/pdf-signature-checker.vue')['default']
     PdfSignatureDetails: typeof import('./src/tools/pdf-signature-checker/components/pdf-signature-details.vue')['default']
