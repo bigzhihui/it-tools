@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { PDFDocumentProxy } from 'pdfjs-dist/legacy/build/pdf.mjs';
 import { openPdf, renderPage } from './pdf-to-image.pdfjs';
-import { imageFileName } from './pdf-to-image.service';
+import { imageFileName, zipFileName, zipImages } from './pdf-to-image.service';
 import type { ImageFormat } from './pdf-to-image.service';
 import { useValidation } from '@/composable/validation';
 import { formatBytes } from '@/utils/convert';
+import { downloadBlob } from '@/utils/download';
 import { parsePageRanges } from '@/utils/page-ranges';
 
 const { t } = useI18n();
@@ -18,8 +19,8 @@ interface LoadedPdf {
 interface Result {
   page: number
   name: string
+  blob: Blob
   url: string
-  size: number
 }
 
 // Kept out of Vue's reactivity: pdf.js objects use private fields, which a
@@ -36,6 +37,7 @@ const scope = ref<'all' | 'some'>('all');
 const pagesInput = ref('');
 const results = ref<Result[]>([]);
 const progress = ref<{ done: number; total: number } | null>(null);
+const zipping = ref(false);
 const failed = ref(false);
 
 const formats = computed(() => [
@@ -147,7 +149,7 @@ async function convert() {
         break;
       }
 
-      results.value.push({ page, name: imageFileName(name, page, pageCount, format.value), url: URL.createObjectURL(blob), size: blob.size });
+      results.value.push({ page, name: imageFileName(name, page, pageCount, format.value), blob, url: URL.createObjectURL(blob) });
       progress.value = { done: index + 1, total: pages.length };
     }
   }
@@ -160,14 +162,20 @@ async function convert() {
   }
 }
 
-async function downloadAll() {
-  for (const result of results.value) {
-    const link = document.createElement('a');
-    link.href = result.url;
-    link.download = result.name;
-    link.click();
-    // Browsers drop downloads that start in the same instant.
-    await new Promise(resolve => setTimeout(resolve, 250));
+async function downloadZip() {
+  if (!file.value) {
+    return;
+  }
+
+  const pdfName = file.value.name;
+  zipping.value = true;
+
+  try {
+    const images = await Promise.all(results.value.map(async ({ name, blob }) => ({ name, bytes: new Uint8Array(await blob.arrayBuffer()) })));
+    downloadBlob(new Blob([zipImages(images)], { type: 'application/zip' }), zipFileName(pdfName));
+  }
+  finally {
+    zipping.value = false;
   }
 }
 </script>
@@ -257,21 +265,23 @@ async function downloadAll() {
     <c-card v-if="results.length > 0" mt-3>
       <div mb-3 flex items-center justify-between gap-3>
         <span>{{ t('tools.pdf-to-image.results') }}</span>
-        <c-button size="small" data-test-id="pdf-to-image-download-all" @click="downloadAll">
-          {{ t('tools.pdf-to-image.downloadAll') }}
+        <c-button
+          size="small"
+          :disabled="zipping || working"
+          :aria-disabled="zipping || working"
+          data-test-id="pdf-to-image-download-zip"
+          @click="downloadZip"
+        >
+          {{ zipping ? t('tools.pdf-to-image.zipping') : t('tools.pdf-to-image.downloadZip') }}
         </c-button>
       </div>
-
-      <p v-if="results.length > 1" class="hint" mb-3>
-        {{ t('tools.pdf-to-image.downloadAllHint') }}
-      </p>
 
       <ul class="results">
         <li v-for="result in results" :key="result.url" data-test-id="pdf-to-image-result">
           <img class="preview" :src="result.url" :alt="t('tools.pdf-to-image.pageLabel', { n: result.page })">
           <div class="result-info">
             <span>{{ t('tools.pdf-to-image.pageLabel', { n: result.page }) }}</span>
-            <span class="file-meta">{{ formatBytes(result.size, 1) }}</span>
+            <span class="file-meta">{{ formatBytes(result.blob.size, 1) }}</span>
           </div>
           <a class="download" :href="result.url" :download="result.name" data-test-id="pdf-to-image-download">
             {{ t('tools.pdf-to-image.download') }}

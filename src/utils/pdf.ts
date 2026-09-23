@@ -12,6 +12,7 @@ import {
   decodePDFRawStream,
 } from 'pdf-lib';
 import type { PDFContext, PDFObject, PDFPageLeaf } from 'pdf-lib';
+import { downloadBlob } from './download';
 
 export type PdfReadResult =
   | { ok: true; pageCount: number }
@@ -40,17 +41,7 @@ export async function inspectPdf(bytes: ArrayBuffer | Uint8Array): Promise<PdfRe
 }
 
 export function downloadPdf(bytes: Uint8Array, filename: string) {
-  // A blob URL rather than a base64 data URL: PDFs can be large, and base64
-  // would inflate them by a third and hold two copies in memory.
-  const url = URL.createObjectURL(new Blob([bytes], { type: 'application/pdf' }));
-  const link = document.createElement('a');
-
-  link.href = url;
-  link.download = filename;
-  link.click();
-
-  // Revoke on the next tick, once the browser has started the download.
-  setTimeout(() => URL.revokeObjectURL(url), 0);
+  downloadBlob(new Blob([bytes], { type: 'application/pdf' }), filename);
 }
 
 // Copies the pages at `indices` (0-based, in that order, no repeats) from

@@ -1,6 +1,7 @@
 import { Buffer } from 'node:buffer';
 import { readFile } from 'node:fs/promises';
 import { expect, test } from '@playwright/test';
+import { unzipSync } from 'fflate';
 import type { Download, Page } from '@playwright/test';
 import { PDFDocument, rgb } from 'pdf-lib';
 
@@ -62,7 +63,7 @@ test.describe('Tool - PDF to image', () => {
     expect(await saved(await downloadPromise)).toEqual({ filename: 'sample-2.png', format: 'png', width: 100, height: 200 });
   });
 
-  test('converts only the selected pages and downloads them all', async ({ page }) => {
+  test('converts only the selected pages and downloads them in one ZIP', async ({ page }) => {
     await upload(page, 'report.pdf', await pdfWithPages([[200, 100], [100, 200], [300, 150]]));
 
     await page.getByRole('button', { name: 'Selected pages' }).click();
@@ -72,15 +73,16 @@ test.describe('Tool - PDF to image', () => {
     await page.getByTestId('pdf-to-image-button').click();
     await expect(page.getByTestId('pdf-to-image-result')).toHaveCount(2);
 
-    const downloads: Download[] = [];
-    page.on('download', download => downloads.push(download));
-    await page.getByTestId('pdf-to-image-download-all').click();
-    await expect.poll(() => downloads.length).toBe(2);
+    const downloadPromise = page.waitForEvent('download');
+    await page.getByTestId('pdf-to-image-download-zip').click();
+    const download = await downloadPromise;
+    const entries = unzipSync(await readFile(await download.path() as string));
 
+    expect(download.suggestedFilename()).toBe('report-images.zip');
     // JPEG at 150 DPI by default: 300 by 150 points is 625 by 312 pixels.
-    expect(await Promise.all(downloads.map(saved))).toEqual([
-      { filename: 'report-3.jpg', format: 'jpg', width: 625, height: 312 },
-      { filename: 'report-1.jpg', format: 'jpg', width: 416, height: 208 },
+    expect(Object.entries(entries).map(([name, bytes]) => ({ name, ...imageSize(Buffer.from(bytes)) }))).toEqual([
+      { name: 'report-3.jpg', format: 'jpg', width: 625, height: 312 },
+      { name: 'report-1.jpg', format: 'jpg', width: 416, height: 208 },
     ]);
   });
 
