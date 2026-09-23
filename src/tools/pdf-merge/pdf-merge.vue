@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ArrowDown, ArrowUp, Trash } from '@vicons/tabler';
-import { downloadPdf, inspectPdf, mergePdfs } from './pdf-merge.service';
+import { mergePdfs } from './pdf-merge.service';
+import { downloadPdf, inspectPdf } from '@/utils/pdf';
 
 const { t } = useI18n();
 

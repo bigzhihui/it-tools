@@ -1,6 +1,6 @@
-import { PDFDocument } from 'pdf-lib';
+import { PDFArray, PDFDict, PDFDocument, PDFName } from 'pdf-lib';
 import { describe, expect, it } from 'vitest';
-import { inspectPdf, mergePdfs } from './pdf-merge.service';
+import { mergePdfs } from './pdf-merge.service';
 
 // Page widths double as a label, so the merged order can be read back.
 async function pdfWithPageWidths(widths: number[]) {
@@ -9,15 +9,6 @@ async function pdfWithPageWidths(widths: number[]) {
     document.addPage([width, 200]);
   }
   return document.save();
-}
-
-async function encryptedPdf() {
-  const document = await PDFDocument.create();
-  document.addPage([100, 100]);
-  // pdf-lib cannot encrypt, but a trailer that points at an /Encrypt
-  // dictionary is exactly what readers use to decide a file is encrypted.
-  document.context.trailerInfo.Encrypt = document.context.register(document.context.obj({ Filter: 'Standard' }));
-  return document.save({ useObjectStreams: false });
 }
 
 async function pageWidths(bytes: Uint8Array) {
@@ -52,21 +43,19 @@ describe('pdf-merge', () => {
 
       expect(await pageWidths(merged)).toEqual([150, 150]);
     });
-  });
 
-  describe('inspectPdf', () => {
-    it('reports the page count of a valid file', async () => {
-      expect(await inspectPdf(await pdfWithPageWidths([100, 100, 100]))).toEqual({ ok: true, pageCount: 3 });
-    });
+    it('keeps links within each file pointing at their pages', async () => {
+      const document = await PDFDocument.create();
+      const [contents, chapter] = [document.addPage([100, 200]), document.addPage([200, 200])];
+      const link = document.context.obj({ Type: 'Annot', Subtype: 'Link', Rect: [0, 0, 10, 10], Dest: [chapter.ref, PDFName.of('Fit')] });
+      contents.node.set(PDFName.of('Annots'), document.context.obj([document.context.register(link)]));
+      const withLink = await document.save();
 
-    it('flags a file that is not a PDF', async () => {
-      const notAPdf = new TextEncoder().encode('just some text, not a pdf');
+      const merged = await PDFDocument.load(await mergePdfs([await pdfWithPageWidths([300]), withLink]));
+      const annotations = merged.getPage(1).node.lookup(PDFName.of('Annots'), PDFArray);
+      const destination = merged.context.lookup(annotations.get(0), PDFDict).lookup(PDFName.of('Dest'), PDFArray);
 
-      expect(await inspectPdf(notAPdf)).toEqual({ ok: false, reason: 'invalid' });
-    });
-
-    it('flags an encrypted file separately', async () => {
-      expect(await inspectPdf(await encryptedPdf())).toEqual({ ok: false, reason: 'encrypted' });
+      expect(destination.get(0)).toBe(merged.getPage(2).ref);
     });
   });
 });
