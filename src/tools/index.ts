@@ -2,6 +2,7 @@ import { tool as base64FileConverter } from './base64-file-converter';
 import { tool as base64StringConverter } from './base64-string-converter';
 import { tool as basicAuthGenerator } from './basic-auth-generator';
 import { tool as emailNormalizer } from './email-normalizer';
+import { tool as pdfMerge } from './pdf-merge';
 
 import { tool as asciiTextDrawer } from './ascii-text-drawer';
 
@@ -142,6 +143,10 @@ export const toolsByCategory: ToolCategory[] = [
   {
     name: 'Images and videos',
     components: [qrCodeGenerator, wifiQrCodeGenerator, svgPlaceholderGenerator, cameraRecorder],
+  },
+  {
+    name: 'PDF',
+    components: [pdfMerge],
   },
   {
     name: 'Development',
