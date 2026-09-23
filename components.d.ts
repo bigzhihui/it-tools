@@ -184,6 +184,7 @@ declare module '@vue/runtime-core' {
     PasswordStrengthAnalyser: typeof import('./src/tools/password-strength-analyser/password-strength-analyser.vue')['default']
     PdfExtractPages: typeof import('./src/tools/pdf-extract-pages/pdf-extract-pages.vue')['default']
     PdfMerge: typeof import('./src/tools/pdf-merge/pdf-merge.vue')['default']
+    PdfRotate: typeof import('./src/tools/pdf-rotate/pdf-rotate.vue')['default']
     PdfSignatureChecker: typeof import('./src/tools/pdf-signature-checker/pdf-signature-checker.vue')['default']
     PdfSignatureDetails: typeof import('./src/tools/pdf-signature-checker/components/pdf-signature-details.vue')['default']
     PercentageCalculator: typeof import('./src/tools/percentage-calculator/percentage-calculator.vue')['default']

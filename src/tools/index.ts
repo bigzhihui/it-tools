@@ -4,6 +4,7 @@ import { tool as basicAuthGenerator } from './basic-auth-generator';
 import { tool as emailNormalizer } from './email-normalizer';
 import { tool as pdfExtractPages } from './pdf-extract-pages';
 import { tool as pdfMerge } from './pdf-merge';
+import { tool as pdfRotate } from './pdf-rotate';
 
 import { tool as asciiTextDrawer } from './ascii-text-drawer';
 
@@ -147,7 +148,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'PDF',
-    components: [pdfMerge, pdfExtractPages],
+    components: [pdfMerge, pdfExtractPages, pdfRotate],
   },
   {
     name: 'Development',
