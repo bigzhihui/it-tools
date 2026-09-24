@@ -7,6 +7,7 @@ import { tool as pdfExtractPages } from './pdf-extract-pages';
 import { tool as pdfMerge } from './pdf-merge';
 import { tool as pdfRotate } from './pdf-rotate';
 import { tool as pdfToImage } from './pdf-to-image';
+import { tool as pdfTranslate } from './pdf-translate';
 
 import { tool as asciiTextDrawer } from './ascii-text-drawer';
 
@@ -150,7 +151,7 @@ export const toolsByCategory: ToolCategory[] = [
   },
   {
     name: 'PDF',
-    components: [pdfMerge, pdfExtractPages, pdfRotate, imageToPdf, pdfToImage],
+    components: [pdfMerge, pdfExtractPages, pdfRotate, imageToPdf, pdfToImage, pdfTranslate],
   },
   {
     name: 'Development',

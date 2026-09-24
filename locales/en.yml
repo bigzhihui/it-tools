@@ -286,6 +286,29 @@ tools:
       a4: "Yes. Click download all as ZIP to get every image in one ZIP file, named in page order."
       q5: "Can password-protected PDFs be converted?"
       a5: "PDFs that only restrict editing or printing can be converted directly. Files that need a password to open cannot; remove the password with other software first."
+  pdf-translate:
+    title: "PDF translation"
+    description: "Translate papers and other PDFs with the online service of the open-source PDFMathTranslate, keeping formulas, figures and layout. Run by a third party, so files are uploaded to their server."
+    about: "PDFMathTranslate is a popular open-source project on GitHub for translating academic papers, technical documents and other PDFs. Formulas, figures, tables of contents and annotations stay as they are, and you get either a translation-only version or a bilingual version with the original and the translation side by side."
+    thirdParty: "This is a third-party service: files are uploaded to the pdf2zh.com server for processing, not to this site, and that site does not say how uploaded files are kept. For sensitive files such as contracts or IDs, use the desktop app below."
+    limitsTitle: "Current limits of the online version"
+    limitSize: "Files must be under 5 MB"
+    limitPages: "Only the first 20 pages are translated"
+    limitEngine: "Google Translate by default, from English to Simplified Chinese, with other languages available"
+    open: "Open PDFMathTranslate online"
+    offlineTitle: "For large or sensitive files"
+    offline: "Download the desktop app and run it on your own computer. Files never leave your computer, and there are no size or page limits. If you know Docker, you can also host it yourself."
+    desktop: "Download the desktop app (Windows)"
+    repo: "View the project on GitHub"
+    guide:
+      intro: "Ordinary translation tools often scramble the layout of English papers and manuals and lose their formulas. PDFMathTranslate, recommended here, keeps formulas, figures and layout while it translates, which suits reading papers in another language. Translation is done by its online service pdf2zh.com; this site only introduces it and links to it."
+      usage: "Open the online version, upload a PDF, choose a translation service and languages, then click Translate. When it is done, download the translation-only version or the bilingual version. The online version has limited computing resources, so please do not submit many files at once."
+      q1: "Is the translation provided by this site?"
+      a1: "No. It is provided by pdf2zh.com, the online service of the open-source PDFMathTranslate project. This site only introduces it and links to it, and files are uploaded to their server for processing."
+      q2: "What are the limits?"
+      a2: "The online version currently accepts files under 5 MB and translates the first 20 pages at most. Use the desktop app for larger or longer files."
+      q3: "Can I use it for sensitive files?"
+      a3: "Uploading them to the online version is not recommended. Download the desktop app and run it on your own computer, where files never leave your machine."
   categories:
     favorite-tools: Your favorite tools
     crypto: Crypto
