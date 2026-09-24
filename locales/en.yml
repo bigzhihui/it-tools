@@ -309,6 +309,29 @@ tools:
       a2: "The online version currently accepts files under 5 MB and translates the first 20 pages at most. Use the desktop app for larger or longer files."
       q3: "Can I use it for sensitive files?"
       a3: "Uploading them to the online version is not recommended. Download the desktop app and run it on your own computer, where files never leave your machine."
+  more-pdf-tools:
+    title: "More PDF tools"
+    description: "Thirteen Months PDF Tools, the sister site: over a hundred PDF tools such as PDF to Word and Excel, OCR, compressing, editing, signing and watermarks, also processed locally in your browser without uploading files."
+    about: "Thirteen Months PDF Tools (pdf.afeiii.com) is the sister site of this toolbox, built on the open-source BentoPDF. It offers over a hundred PDF tools: converting between PDF and Word, Excel or images, recognizing text in scans, compressing, editing text and images, signing, adding watermarks and page numbers, encrypting and decrypting, and more."
+    notesTitle: "Before you start"
+    privacy: "Like the other PDF tools on this site, files are processed only in your browser and never uploaded to any server."
+    browser: "Use a recent Chrome, Edge or Firefox. Some tools do not work in Chrome or Edge older than version 119, or in browsers built on an old engine."
+    firstLoad: "Compressing, OCR, format conversion and some other tools first download tens of MB of processing components, which your browser then keeps."
+    ocr: "OCR recognizes Simplified Chinese, Traditional Chinese, English, Japanese and Korean."
+    office: "Word, Excel and PowerPoint to PDF are not available yet."
+    open: "Open Thirteen Months PDF Tools"
+    sourceTitle: "Open source"
+    source: "Thirteen Months PDF Tools is a modified BentoPDF, and its source code is published under the AGPL-3.0 license."
+    repo: "View the source code"
+    guide:
+      intro: "The PDF category of this site covers common tasks such as merging, splitting, rotating and converting between PDF and images. To turn a PDF into Word or Excel, recognize text in scans, or compress, edit or sign a PDF, use the sister site Thirteen Months PDF Tools. Built on the open-source BentoPDF, it offers over a hundred tools, all processed locally in your browser."
+      usage: "Open Thirteen Months PDF Tools, search for a tool on its home page or browse by category, upload your file, adjust the settings and start. Download the result when it is done."
+      q1: "Are files uploaded to a server?"
+      a1: "No. Like this site, Thirteen Months PDF Tools does all processing in your browser, and files never leave your device."
+      q2: "What if a tool does not open or fails?"
+      a2: "Try again in a recent Chrome or Edge, since some tools do not support old browsers. Compressing, OCR and some other tools download processing components the first time, which can take a while on a slow network."
+      q3: "Can I convert Word or Excel files to PDF?"
+      a3: "Not yet. These conversions need a very large Office component, which is not available at the moment. PDF to Word and Excel work normally."
   categories:
     favorite-tools: Your favorite tools
     crypto: Crypto
