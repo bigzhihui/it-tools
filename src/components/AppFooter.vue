@@ -42,6 +42,9 @@ const showContactModal = ref(false);
     <!-- 隐私政策弹窗 -->
     <NModal v-model:show="showPrivacyModal" preset="card" :title="$t('footer.privacyModalTitle')" style="max-width: 560px;" class="privacy-modal">
       <div class="modal-content">
+        <p class="item-desc">
+          本站使用 Cloudflare Web Analytics 了解页面访问和加载性能，不上传工具输入内容；不使用统计 Cookie。<a href="https://afeiii.com/privacy/" target="_blank" rel="noopener noreferrer">访问统计说明</a>
+        </p>
         <div class="modal-item">
           <div class="item-title">
             <NIcon :component="IconShieldCheck" class="mr-1 text-primary" />
