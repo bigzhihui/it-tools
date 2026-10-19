@@ -10,6 +10,9 @@ const showContactModal = ref(false);
 
 <template>
   <footer class="app-footer">
+    <nav aria-label="十三月工具导航" class="matrix-navigation">
+      <a href="https://afeiii.com/" target="_blank" rel="noopener noreferrer">十三月主站</a><a href="https://tools.afeiii.com/" target="_blank" rel="noopener noreferrer">开发工具</a><a href="https://pdf.afeiii.com/" target="_blank" rel="noopener noreferrer">PDF 工具</a><a href="https://resume.afeiii.com/" target="_blank" rel="noopener noreferrer">在线简历</a><a href="https://check.afeiii.com/" target="_blank" rel="noopener noreferrer">网站检测</a><a href="https://convert.afeiii.com/" target="_blank" rel="noopener noreferrer">格式转换</a>
+    </nav>
     <div class="footer-inner">
       <!-- 第一行：版权信息 -->
       <div class="copyright">
@@ -255,4 +258,7 @@ const showContactModal = ref(false);
     }
   }
 }
+.matrix-navigation { display: flex; justify-content: center; flex-wrap: wrap; gap: 10px 20px; padding: 0 16px 18px; font-size: 12px; }
+.matrix-navigation a { color: inherit; text-decoration: none; }
+.matrix-navigation a:hover { text-decoration: underline; }
 </style>
