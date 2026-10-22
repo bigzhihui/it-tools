@@ -60,8 +60,9 @@ test.describe('synthetic camera capture', () => {
     expect(await image.evaluate((element: HTMLImageElement) => [element.naturalWidth, element.naturalHeight])).toEqual([640, 480]);
     await page.getByRole('button', { name: 'Start recording', exact: true }).click();
     await page.getByRole('button', { name: 'Pause', exact: true }).click();
+    const resumeAt = await page.locator('video').first().evaluate((element: HTMLVideoElement) => element.currentTime);
     await page.getByRole('button', { name: 'Resume', exact: true }).click();
-    await expect.poll(() => page.locator('video').first().evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(1);
+    await expect.poll(() => page.locator('video').first().evaluate((element: HTMLVideoElement) => element.currentTime)).toBeGreaterThan(resumeAt + 1);
     await page.getByRole('button', { name: 'Stop', exact: true }).click();
     const recording = page.locator('video').nth(1);
     await expect(recording).toBeVisible();
