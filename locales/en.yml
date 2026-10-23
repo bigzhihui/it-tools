@@ -15,6 +15,8 @@ common:
   copyToClipboard: Copy to clipboard
   refresh: Refresh
   clear: Clear
+  increase: Increase
+  decrease: Decrease
   loadSample: Load sample
   encode: Encode
   decode: Decode

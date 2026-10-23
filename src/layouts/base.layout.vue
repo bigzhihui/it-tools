@@ -135,9 +135,9 @@ const tools = computed<ToolCategory[]>(() => [
           </c-tooltip>
         </div>
 
-        <div class="main-page-slot">
+        <main class="main-page-slot">
           <slot />
-        </div>
+        </main>
 
         <AppFooter />
       </div>
