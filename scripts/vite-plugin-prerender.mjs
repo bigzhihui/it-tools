@@ -139,10 +139,12 @@ export function prerender({ siteUrl = 'https://tools.afeiii.com' } = {}) {
           : escapeHtml(page.description);
 
         const body = [
+          '<main>',
           `<h1>${escapeHtml(page.isHome ? brand : page.title)}</h1>`,
           `<p>${escapeHtml(page.description)}</p>`,
           renderGuide(page.guide, guideTitles),
           `<nav aria-label="${escapeHtml(brand)}"><ul>${navLinks}</ul></nav>`,
+          '</main>',
         ].join('');
 
         // Every tag in the template that carries the site's title or
@@ -150,8 +152,6 @@ export function prerender({ siteUrl = 'https://tools.afeiii.com' } = {}) {
         // not the other. The image alt text stays: it describes the banner.
         const metaTags = [
           ['name', 'description', metaDescription],
-          ['itemprop', 'name', escapeHtml(fullTitle)],
-          ['itemprop', 'description', metaDescription],
           ['property', 'og:title', escapeHtml(fullTitle)],
           ['property', 'og:description', metaDescription],
           ['property', 'og:url', canonical],

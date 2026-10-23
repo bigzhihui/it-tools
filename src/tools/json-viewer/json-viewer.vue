@@ -33,7 +33,14 @@ const rawJsonValidation = useValidation<string>({
         <n-switch v-model:value="sortKeys" />
       </n-form-item>
       <n-form-item :label="t('tools.json-prettify.indentSize')" label-placement="left" label-width="120" :show-feedback="false">
-        <n-input-number v-model:value="indentSize" min="0" max="10" style="width: 100px" />
+        <n-input-number v-model:value="indentSize" min="0" max="10" style="width: 100px">
+          <template #add-icon>
+            <icon-mdi-plus role="img" :aria-label="t('common.increase')" />
+          </template>
+          <template #minus-icon>
+            <icon-mdi-minus role="img" :aria-label="t('common.decrease')" />
+          </template>
+        </n-input-number>
       </n-form-item>
     </div>
   </div>

@@ -6,8 +6,8 @@ on:
       - main
 jobs:
   test:
-    timeout-minutes: 10
-    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
         shard: [1/3, 2/3, 3/3]
@@ -41,7 +41,11 @@ jobs:
             ${{ runner.os }}-playwright-
 
       - name: Install Playwright Browsers
-        run: pnpm exec playwright install --with-deps
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Check public UI accessibility and core interactions
+        if: matrix.shard == '1/3'
+        run: node scripts/check-public-ui.mjs
 
       - name: Run Playwright tests
         run: pnpm run test:e2e --shard=${{ matrix.shard }}
