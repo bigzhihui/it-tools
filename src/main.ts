@@ -12,6 +12,7 @@ import { naive } from './plugins/naive.plugin';
 
 import App from './App.vue';
 import router from './router';
+import { usageEvent } from './afeiii-usage';
 import { i18nPlugin } from './plugins/i18n.plugin';
 
 registerSW();
@@ -27,3 +28,4 @@ app.use(plausible);
 app.use(shadow);
 
 app.mount('#app');
+router.afterEach(() => usageEvent('entry'));
