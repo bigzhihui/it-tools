@@ -4,6 +4,7 @@ import { toValue } from 'vue';
 // eslint-disable-next-line no-restricted-imports
 import { useClipboard } from '@vueuse/core';
 import { useMessage } from 'naive-ui';
+import { usageOperation } from '../afeiii-usage';
 
 export function useCopy({ source, text = 'Copied to the clipboard', createToast = true }: { source?: MaybeRefOrGetter<string>; text?: MaybeRefOrGetter<string>; createToast?: boolean } = {}) {
   const { copy, copied, ...rest } = useClipboard({
@@ -17,11 +18,19 @@ export function useCopy({ source, text = 'Copied to the clipboard', createToast 
     ...rest,
     isJustCopied: copied,
     async copy(content?: string, { notificationMessage }: { notificationMessage?: string } = {}) {
-      if (source) {
-        await copy();
+      const usage = usageOperation();
+      try {
+        if (source) {
+          await copy();
+        }
+        else {
+          await copy(content);
+        }
+        usage[copied.value ? 'success' : 'failure']();
       }
-      else {
-        await copy(content);
+      catch (error) {
+        usage.failure();
+        throw error;
       }
 
       if (createToast) {
